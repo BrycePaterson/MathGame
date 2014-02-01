@@ -9,24 +9,18 @@ storyboard.removeAll()
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
- 
--- Called when the scene's view does not exist:
 
 
-
+--This is called automattically when Scene is called
 function scene:createScene( event )
   local group = self.view
   
- local title = display.newImage("title.png")
-	title.x = 400
+  --makes game tile to be shown
+ local title = display.newImage("Gladiator-Title-Altered.png")
+	title.x = 200
 	title.y = 400
-	
-	title:scale(2.0,2.0)
+	--title:scale(2.0,2.0)
 	group:insert(title)
-	
-	
- 
- 
 end
  
 -- Called BEFORE scene has moved onscreen:

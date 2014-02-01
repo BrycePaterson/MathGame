@@ -11,15 +11,21 @@ local scene = storyboard.newScene()
  
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-  local group = self.view
+  	local group = self.view
   
- local title = display.newImage("title.png")
-	title.x = 600
-	title.y = 600
+  	--loads play image
+ 	local play = display.newImage("PLAY.png")
+	play.x = 100
+	play.y = 700
+	play:rotate(-90)
+	group:insert(play)
 	
-	title:scale(3.0,3.0)
-	group:insert(title)
- 
+	--loads tutorial image
+	local tutorial = display.newImage("TUTORIAL.png")
+ 	tutorial.x = 200
+ 	tutorial.y = 400
+ 	tutorial:rotate(-90)
+ 	group:insert(tutorial)
  
 end
  
