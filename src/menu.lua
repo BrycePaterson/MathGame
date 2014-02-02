@@ -1,5 +1,7 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
+local height = display.contentHeight
+local width = display.contentWidth
  
 
  
@@ -15,17 +17,28 @@ function scene:createScene( event )
   
   	--loads play image
  	local play = display.newImage("PLAY.png")
-	play.x = 100
-	play.y = 700
+	play.x = play.contentHeight
+	play.y = height - (play.contentWidth/2)
 	play:rotate(-90)
 	group:insert(play)
 	
 	--loads tutorial image
 	local tutorial = display.newImage("TUTORIAL.png")
- 	tutorial.x = 200
- 	tutorial.y = 400
+ 	tutorial.x = width/2
+ 	tutorial.y = height/2
  	tutorial:rotate(-90)
  	group:insert(tutorial)
+ 	
+ 	--loads exit button
+ 	local exit = display.newImage("Exit.png")
+ 	exit.x = width - exit.contentHeight/2
+ 	exit.y = exit.contentWidth/3
+ 	exit:rotate(-90)
+ 	group:insert(exit)
+ 	
+ 	local text = display.newText(display.contentHeight,100,100,"Georgia",50)
+ 	text:setTextColor(100,100,100)
+ 	group:insert(text)
  
 end
  
