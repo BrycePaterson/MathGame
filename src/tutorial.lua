@@ -1,57 +1,30 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-local height = display.contentHeight
-local width = display.contentWidth
  
-
+-- Clear previous scene
+storyboard.removeAll()
  
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
---------------------------------------------------------------------------------- 
- 
--- Called when the scene's view does not exist:
+---------------------------------------------------------------------------------
+
+
+--This is called automattically when Scene is called
 function scene:createScene( event )
-  	local group = self.view
   
-  	--loads play image
- 	local play = display.newImage("PLAY.png")
-	play.x = play.contentHeight
-	play.y = height - (play.contentWidth/2)
-	play:rotate(-90)
-	group:insert(play)
-	
-	--loads tutorial image
-	local tutorial = display.newImage("TUTORIAL.png")
- 	tutorial.x = width/2
- 	tutorial.y = height/2
- 	tutorial:rotate(-90)
- 	tutorial:addEventListener("tap",tutorial)
- 	group:insert(tutorial)
- 	
- 	--loads exit button
- 	local exit = display.newImage("Exit.png")
- 	exit.x = width - exit.contentHeight/2
- 	exit.y = exit.contentWidth/3
- 	exit:rotate(-90)
- 	group:insert(exit) 
+  	local tut = display.newImage("tutorial-page.png")
+	--play.x = play.contentHeight
+	--play.y = height - (play.contentWidth/2)
+	tut:rotate(-90)
+	group:insert(tut)
+  
 end
-
-function tutorial()
-	--local group = self.view
-	--storyboard.gotoScene("tutorial")
-	
- 	local text = display.newText(display.contentHeight,200,100,"Georgia",50)
- 	text:setTextColor(200,200,200)
-
-end
-
-
  
 -- Called BEFORE scene has moved onscreen:
 function scene:willEnterScene( event )
-  
+ 
  
 end
  
@@ -63,7 +36,8 @@ end
  
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
- 
+  
+  --group:remove(title)
  
 end
  
@@ -87,7 +61,7 @@ end
  
 -- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
 function scene:overlayEnded( event )
- 
+  
  
 end
  
