@@ -1,6 +1,7 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local gv = require("global")
+local widget = require("widget")
  
 -- Clear previous scene
 storyboard.removeAll()
@@ -11,6 +12,10 @@ storyboard.removeAll()
 -- BEGINNING OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
 
+local function home(event)
+  storyboard.gotoScene("menu")
+end
+
 
 --This is called automattically when Scene is called
 function scene:createScene( event )
@@ -18,9 +23,32 @@ function scene:createScene( event )
   	local tut = display.newImage("tutorial-page.png")
 	  tut.x = gv.width/2
 	  tut.y = gv.height/2
-	--play.y = height - (play.contentWidth/2)
-	--tut:rotate(-90)
+	 tut:scale(1.0,1.25)
 	group:insert(tut)
+	
+	
+	
+	local home = widget.newButton{
+  x = 50,
+  y = gv.height - 100,
+  defaultFile = "Home.png",
+  onEvent = home,
+  }
+  home:rotate(-90)
+  home:scale(0.5,0.5)
+  group:insert(home)
+  
+  
+  local next = widget.newButton{
+  x = gv.width - 50,
+  y = 80,
+  defaultFile = "Next.png",
+  onEvent = next,
+  }
+  
+  next:rotate(-90)
+  next:scale(0.5,0.5)
+  group:insert(next)
   
 end
  
