@@ -2,102 +2,50 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
 local gv = require("global")
---local height = display.contentHeight
---local width = display.contentWidth
-
-gv.height = display.contentHeight
-gv.width = display.contentWidth
+ 
+-- Clear previous scene
+storyboard.removeAll()
+ 
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
---------------------------------------------------------------------------------- 
- 
-local function play(event)
+---------------------------------------------------------------------------------
 
-  storyboard.gotoScene("level")
+local function home(event)
 
-end 
- 
- local function about(event)
- 
-    storyboard.gotoScene("about")
- end
- 
- local function tutorial(event)
-  
-  storyboard.gotoScene("tutorial")
-  
-   --local text = display.newText(display.contentHeight,200,100,"Georgia",50)
-   --text:setTextColor(200,200,200)
+  storyboard.gotoScene("menu")
+
 end
 
-local function exit(event)
-  
-    os.exit()
-end
- 
--- Called when the scene's view does not exist:
+--This is called automattically when Scene is called
 function scene:createScene( event )
     local group = self.view
   
-  	--loads play image
- 	  local pl = display.newImage("PLAY.png")
-    pl.isVisible = false
-	  local play = widget.newButton{
-        x = pl.contentHeight,
-        y = gv.height - (pl.contentWidth/2),
-	      defaultFile = "PLAY.png",
-	      onEvent = play, 
-    }
-    play:rotate(-90)
-	  group:insert(play)
-	
-	
-	  --loads tutorial image
- 	  local tutorial = widget.newButton{
-   	    x = gv.width/2,
-   	    y = gv.height/2,
-   	    defaultFile = "TUTORIAL.png",
-   	    onEvent = tutorial,
- 	  }
- 	  tutorial:rotate(-90)
- 	  group:insert(tutorial)
- 	
- 	
- 	  --loads exit button
- 	  local quit = display.newImage("EXIT.png")
- 	  quit.isVisible = false
- 	  local exit = widget.newButton{
-   	    x = gv.width - quit.contentHeight/2,
-   	    y = quit.contentWidth/3,
-   	    defaultFile = "EXIT.png",
-   	    onEvent = exit,
-  	}
- 	
-    exit:rotate(-90)
-    group:insert(exit)
-    
-     --loads about button
-    local ab = display.newImage("About.png")
-    ab.isVisible = false
-    local about = widget.newButton{
-        x = gv.width - ab.contentHeight/2,
-        y = gv.height - 200,
-        defaultFile = "About.png",
-        onEvent = about,
-    }
-  
-    about:rotate(-90)
-    group:insert(about)
- 
+   local text = display.newText("This game was made by",100,400,"Georgia",50)
+   local cont = display.newText("Raffi and Bryce",200,400,"Georgia",50)
+   text:setTextColor(200,200,200)
+   
+   text:rotate(-90)
+   cont:rotate(-90)
+   group:insert(cont)
+   group:insert(text) 
+   
+   --home button
+   local home = widget.newButton{
+      x = 50,
+      y = gv.height - 100,
+      defaultFile = "Home.png",
+      onEvent = home,
+   }
+   home:rotate(-90)
+   home:scale(0.5,0.5)
+   group:insert(home)
 end
-
-
  
 -- Called BEFORE scene has moved onscreen:
 function scene:willEnterScene( event )
-  
+ 
  
 end
  
@@ -109,7 +57,8 @@ end
  
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
- 
+  
+  --group:remove(title)
  
 end
  
@@ -133,7 +82,7 @@ end
  
 -- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
 function scene:overlayEnded( event )
- 
+  
  
 end
  

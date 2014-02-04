@@ -27,7 +27,7 @@ function scene:createScene( event )
 	group:insert(tut)
 	
 	
-	
+	--home button
 	local home = widget.newButton{
   x = 50,
   y = gv.height - 100,
@@ -39,6 +39,7 @@ function scene:createScene( event )
   group:insert(home)
   
   
+  --next button
   local next = widget.newButton{
   x = gv.width - 50,
   y = 80,
