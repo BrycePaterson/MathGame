@@ -1,5 +1,6 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
+local gv = require("global")
  
 -- Clear previous scene
 storyboard.removeAll()
@@ -13,11 +14,12 @@ storyboard.removeAll()
 
 --This is called automattically when Scene is called
 function scene:createScene( event )
-  
+  local group = self.view
   	local tut = display.newImage("tutorial-page.png")
-	--play.x = play.contentHeight
+	  tut.x = gv.width/2
+	  tut.y = gv.height/2
 	--play.y = height - (play.contentWidth/2)
-	tut:rotate(-90)
+	--tut:rotate(-90)
 	group:insert(tut)
   
 end

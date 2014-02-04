@@ -1,15 +1,29 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-local height = display.contentHeight
-local width = display.contentWidth
- 
+local widget = require("widget")
+local gv = require("global")
+--local height = display.contentHeight
+--local width = display.contentWidth
 
- 
+gv.height = display.contentHeight
+gv.width = display.contentWidth
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 --------------------------------------------------------------------------------- 
+ 
+ 
+ 
+ local function tutorial(event)
+  --local group = self.view
+  storyboard.gotoScene("tutorial")
+  
+   --local text = display.newText(display.contentHeight,200,100,"Georgia",50)
+   --text:setTextColor(200,200,200)
+  
+
+end
  
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -18,33 +32,39 @@ function scene:createScene( event )
   	--loads play image
  	local play = display.newImage("PLAY.png")
 	play.x = play.contentHeight
-	play.y = height - (play.contentWidth/2)
+	play.y = gv.height - (play.contentWidth/2)
 	play:rotate(-90)
 	group:insert(play)
 	
 	--loads tutorial image
-	local tutorial = display.newImage("TUTORIAL.png")
- 	tutorial.x = width/2
- 	tutorial.y = height/2
+	--local tutorial = display.newImage("TUTORIAL.png")
+ 	--tutorial.x = width/2
+ 	--tutorial.y = height/2
+ 	--tutorial:rotate(-90)
+ 	--tutorial:addEventListener("tap",tutorial)
+ 	--group:insert(tutorial)
+ 	
+    --local t = display.newImage("TUTORIAL.png")
+  --t:rotate(-90)
+   	
+ 	local tutorial = widget.newButton{
+ 	--left = 100,
+ 	--top = 100,
+ 	x = gv.width/2,
+ 	y = gv.height/2,
+ 	defaultFile = "TUTORIAL.png",
+ 	onEvent = tutorial,
+ 	}
  	tutorial:rotate(-90)
- 	tutorial:addEventListener("tap",tutorial)
  	group:insert(tutorial)
  	
  	--loads exit button
- 	local exit = display.newImage("Exit.png")
- 	exit.x = width - exit.contentHeight/2
+ 	local exit = display.newImage("EXIT.png")
+ 	exit.x = gv.width - exit.contentHeight/2
  	exit.y = exit.contentWidth/3
  	exit:rotate(-90)
  	group:insert(exit) 
-end
-
-function tutorial()
-	--local group = self.view
-	--storyboard.gotoScene("tutorial")
-	
- 	local text = display.newText(display.contentHeight,200,100,"Georgia",50)
- 	text:setTextColor(200,200,200)
-
+ 
 end
 
 
