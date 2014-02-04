@@ -2,85 +2,73 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
 local gv = require("global")
---local height = display.contentHeight
---local width = display.contentWidth
-
-gv.height = display.contentHeight
-gv.width = display.contentWidth
+local level = {}  --array used to hold level grid
+-- Clear previous scene
+storyboard.removeAll()
+ 
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
---------------------------------------------------------------------------------- 
- 
-local function play(event)
+---------------------------------------------------------------------------------
 
-  storyboard.gotoScene("level")
-
-end 
- 
- 
- local function tutorial(event)
-  
-  storyboard.gotoScene("tutorial")
-  
-   --local text = display.newText(display.contentHeight,200,100,"Georgia",50)
-   --text:setTextColor(200,200,200)
+local function home(event)
+  storyboard.gotoScene("menu")
 end
 
-local function exit(event)
-  
-    os.exit()
-end
- 
--- Called when the scene's view does not exist:
+
+
+--This is called automattically when Scene is called
 function scene:createScene( event )
+
+    local dx = 100
+    local dy = 100
+
     local group = self.view
+    --used to created level grid
+    for i = 0, 2 do --row
+        level[i] = {}
+        for j = 0, 2 do --column
+            level[i][j] = widget.newButton{
+                x = dx*j + 200,
+                y = dy*i + 325,
+                fontSize = 20,
+                width = 80,
+                height = 80,
+                defaultFile = "square.png",
+                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+          }
+          --level[i][j]:scale(0.5,0.5)
+          level[i][j]:rotate(-90)
+          level[i][j]:setLabel((j + 1)*3 - i)
+          group:insert(level[i][j])
+        end  
+    end
+    
+    --used to display what kind of level you are going to play
+    local type = display.newText("Addition",200,100,"Georgia",50)
+    type:setTextColor(200,200,200)
+    type:rotate(-90)
+    type.x = 50
+    type.y = gv.height/2
+    group:insert(type)
   
-  	--loads play image
- 	  local pl = display.newImage("PLAY.png")
-    pl.isVisible = false
-	  local play = widget.newButton{
-        x = pl.contentHeight,
-        y = gv.height - (pl.contentWidth/2),
-	      defaultFile = "PLAY.png",
-	      onEvent = play, 
+    --makes home button
+    local home = widget.newButton{
+        x = 50,
+        y = gv.height - 100,
+        defaultFile = "Home.png",
+        onEvent = home,
     }
-    play:rotate(-90)
-	  group:insert(play)
-	
-	
-	  --loads tutorial image
- 	  local tutorial = widget.newButton{
-   	    x = gv.width/2,
-   	    y = gv.height/2,
-   	    defaultFile = "TUTORIAL.png",
-   	    onEvent = tutorial,
- 	  }
- 	  tutorial:rotate(-90)
- 	  group:insert(tutorial)
- 	
- 	
- 	  --loads exit button
- 	  local quit = display.newImage("EXIT.png")
- 	  quit.isVisible = false
- 	  local exit = widget.newButton{
-   	    x = gv.width - quit.contentHeight/2,
-   	    y = quit.contentWidth/3,
-   	    defaultFile = "EXIT.png",
-   	    onEvent = exit,
-  	}
- 	
-    exit:rotate(-90)
-    group:insert(exit)
+    home:rotate(-90)
+    home:scale(0.5,0.5)
+    group:insert(home)
  
 end
-
-
  
 -- Called BEFORE scene has moved onscreen:
 function scene:willEnterScene( event )
-  
+ 
  
 end
  
@@ -92,7 +80,8 @@ end
  
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
- 
+  
+  --group:remove(title)
  
 end
  
@@ -116,7 +105,7 @@ end
  
 -- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
 function scene:overlayEnded( event )
- 
+  
  
 end
  
