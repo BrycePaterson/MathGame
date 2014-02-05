@@ -17,6 +17,9 @@ local function home(event)
 end
 
 
+local function handleButton(event)
+	storyboard.gotoScene("arena")
+end
 
 --This is called automattically when Scene is called
 function scene:createScene( event )
@@ -37,6 +40,7 @@ function scene:createScene( event )
                 height = 80,
                 defaultFile = "square.png",
                 labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+				onEvent = handleButton
           }
           --level[i][j]:scale(0.5,0.5)
           level[i][j]:rotate(-90)
