@@ -7,7 +7,8 @@ local gv = require("global")
 
 gv.height = display.contentHeight
 gv.width = display.contentWidth
-local range = 10
+local range = gv.range
+local hr = gv.hit
 local a= math.random(0,range)
 local b= math.random(0,range)
 -- local forward references should go here --
@@ -32,13 +33,30 @@ function questionToString()
 	return a.." + "..b.." ="
 end
  
+ --function called to determine if the enemy lands a hit
+function enemyHit()
+	if(math.random()<=hr) then
+		player_health = player_health-1	
+	end
+end
+
+--function called to determine if the player lands a hit. Parameter: user input
+function playerHit(answer)
+	if(answer==getAnswer()) then
+		computer_health=computer_health-1
+	end
+end
+
+--function to display a health of either player as a fraction
+function displayHealth(health)
+	return health.."/15"
+end
+ 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
     local arena = diaplay.newImage("Arena.png")
 end
-
-
  
 -- Called BEFORE scene has moved onscreen:
 function scene:willEnterScene( event )
