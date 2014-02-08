@@ -7,8 +7,8 @@ local gv = require("global")
 
 gv.height = display.contentHeight
 gv.width = display.contentWidth
-local r = 10
-local hr = 1
+local r = gv.range
+local hr = gv.hit
 local a= math.random(0,r)
 local b= math.random(0,r)
 local player_health = 15
