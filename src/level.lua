@@ -21,10 +21,7 @@ local function handleButton(event)
 	
 	local s = event.target
 	s = s:getLabel()
-	local type = display.newText(s:getLabel(),300,100,"Georgia",50)
-    type:setTextColor(200,200,200)
-       
-    
+	
     if s=="1" then 
     	gv.hit = 0.3
     	gv.range = 10
@@ -54,7 +51,7 @@ local function handleButton(event)
     	gv.range = 50
 	end
     
-	--storyboard.gotoScene("arena")
+	storyboard.gotoScene("arena")
 end
 
 --This is called automattically when Scene is called
