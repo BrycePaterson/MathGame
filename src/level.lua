@@ -18,7 +18,43 @@ end
 
 
 local function handleButton(event)
-	storyboard.gotoScene("arena")
+	
+	local s = event.target
+	s = s:getLabel()
+	local type = display.newText(s:getLabel(),300,100,"Georgia",50)
+    type:setTextColor(200,200,200)
+       
+    
+    if s=="1" then 
+    	gv.hit = 0.3
+    	gv.range = 10
+	elseif s == "2" then 
+		gv.hit = 0.5
+    	gv.range = 10
+	elseif s == "3" then 
+		gv.hit = 0.5
+    	gv.range = 20
+	elseif s == "4" then 
+		gv.hit = 0.6
+    	gv.range = 20
+	elseif s == "5" then 
+		gv.hit = 0.6
+		gv.range = 30
+	elseif s == "6" then 
+		gv.miss = 0.7
+    	gv.range = 30
+	elseif s == "7" then 
+		gv.miss = 0.7
+		gv.range = 40
+	elseif s == "8" then 
+		gv.miss = 0.8
+    	gv.range = 40
+    elseif s == "9" then 
+		gv.miss = 0.8
+    	gv.range = 50
+	end
+    
+	--storyboard.gotoScene("arena")
 end
 
 --This is called automattically when Scene is called
@@ -33,6 +69,7 @@ function scene:createScene( event )
         level[i] = {}
         for j = 0, 2 do --column
             level[i][j] = widget.newButton{
+            	label = (j+1)*3-i,
                 x = dx*j + 200,
                 y = dy*i + 325,
                 fontSize = 20,
@@ -44,7 +81,7 @@ function scene:createScene( event )
           }
           --level[i][j]:scale(0.5,0.5)
           level[i][j]:rotate(-90)
-          level[i][j]:setLabel((j + 1)*3 - i)
+          --level[i][j]:setLabel((j + 1)*3 - i)
           group:insert(level[i][j])
         end  
     end

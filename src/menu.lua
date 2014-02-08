@@ -1,3 +1,6 @@
+-- Location where writen files are stored
+-- C:\Users\raffi\AppData\Roaming\Corona Labs\Corona Simulator\Sandbox\src-084303B6A77F97E6E874C1BE5E5205B1\Documents
+
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
@@ -35,6 +38,56 @@ end
 local function exit(event)
   
     os.exit()
+end
+
+local function readFile()
+
+	local path = system.pathForFile("first2.txt",system.DocumentsDirectory)
+	local file = io.open(path, "r")
+	local data = file:read("*a")
+	
+	local text = display.newText(path,200,100,"Georgia",50)
+   text:setTextColor(200,200,200)
+   text:rotate(-90)
+	
+	if data == "yes" then 
+		gv.permission = 1
+	else
+		gv.permission = 0
+	end
+	
+
+end
+
+local function writeFirst(event)
+
+	local i = event.index
+	local path = system.pathForFile("first2.txt",system.DocumentsDirectory)
+	local file = io.open(path, "w+")
+	if i == 1	then
+		file:write("yes","\n")
+		gv.permission = 1
+	elseif 1 == 2 then
+		file:write("no","\n")
+		gv.permission = 0
+	end
+	
+	io.close(file)
+	file = nil
+end
+
+local function firstTime()
+
+	local path = system.pathForFile("first2.txt",system.DocumentsDirectory)
+	local file = io.open(path, "r")
+	
+	if(file==nil)then
+		local alert = native.showAlert( "Hey There","Can we learn more about our game from your expreance", { "Yes", "No" }, writeFirst )
+	else
+		readFile()
+	end
+	file = nil
+
 end
  
 -- Called when the scene's view does not exist:
@@ -90,6 +143,8 @@ function scene:createScene( event )
   
     about:rotate(-90)
     group:insert(about)
+    
+    firstTime()
  
 end
 
