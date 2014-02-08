@@ -46,17 +46,11 @@ local function readFile()
 	local file = io.open(path, "r")
 	local data = file:read("*a")
 	
-	local text = display.newText(path,200,100,"Georgia",50)
-   text:setTextColor(200,200,200)
-   text:rotate(-90)
-	
 	if data == "yes" then 
 		gv.permission = 1
 	else
 		gv.permission = 0
 	end
-	
-
 end
 
 local function writeFirst(event)
