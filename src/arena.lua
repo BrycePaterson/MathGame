@@ -7,10 +7,13 @@ local gv = require("global")
 
 gv.height = display.contentHeight
 gv.width = display.contentWidth
-local range = gv.range
-local hr = gv.hit
-local a= math.random(0,range)
-local b= math.random(0,range)
+local r = 10
+local hr = 1
+local a= math.random(0,r)
+local b= math.random(0,r)
+local player_health = 15
+local computer_health = 15
+
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
@@ -19,8 +22,8 @@ local b= math.random(0,range)
  
 --function to change the numbers in the question
 function changeValues()
-	a = math.random(0,range)
-	b = math.random(0,range)
+	a = math.random(0,r)
+	b = math.random(0,r)
 end
 
 --function to get the answer of the question
@@ -55,7 +58,18 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
-    local arena = diaplay.newImage("Arena.png")
+    local arena = display.newImage("Arena.png")
+	arena.x = 235
+	arena.y = 450
+	arena.xScale = 1.1
+	arena.yScale = 1.1
+	local Player = display.newText(displayHealth(player_health),120,60,"Georgia",50)
+	Player:setTextColor(240,0,0)
+	Player:rotate(-90)
+	local Enemy=display.newText(displayHealth(computer_health),120,gv.height-60,"Georgia",50)
+	Enemy:setTextColor(240,0,0)
+	Enemy:rotate(-90)
+	
 end
  
 -- Called BEFORE scene has moved onscreen:
