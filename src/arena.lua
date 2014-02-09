@@ -1,3 +1,9 @@
+-- TO DO
+--		Add daeath catching condition RAFI
+--		player pictures BRYCE
+--		add "correct" and "incorrect" RAFI
+--		hit animation (players pictures flashing) BRYCE
+--		sounds  ???
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
@@ -11,9 +17,15 @@ local r = gv.range
 local hr = gv.hit
 local a= math.random(0,r)
 local b= math.random(0,r)
-local player_health = 15
-local computer_health = 15
-
+local player_health = 5
+local computer_health = 5
+local level = {}
+local extra = {}
+local group
+local q
+local answer = ""
+local enemy
+local player
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
@@ -33,7 +45,7 @@ end
 
 --question to return a string of the question
 function questionToString()
-	return a.." + "..b.." ="
+	return a.." + "..b.." = "
 end
  
  --function called to determine if the enemy lands a hit
@@ -52,24 +64,176 @@ end
 
 --function to display a health of either player as a fraction
 function displayHealth(health)
-	return health.."/15"
+	return health.."/5"
+end
+
+local function showQuestion()
+	
+	local box = display.newImage("questionbox.png")
+	box:rotate(-90)
+	box:scale(1,1)
+	box.y = gv.height/2
+	box.xScale = 0.7
+	
+	q = display.newText(questionToString(),35,gv.height/2,"Georgia",50)
+	q:rotate(-90)
+	q:setTextColor(0,0,0)
+	
+	group:insert(box)
+	group:insert(q)
+	
+	
+end
+
+local function input(event)
+
+	if event.phase == "began" and answer:len() < 3 then 
+		local s = event.target
+		s = s:getLabel()
+		answer = answer..s
+		q.text = q.text..s
+	end
+end
+
+local function clear(event)
+
+	if event.phase == "began" then
+		q.text = questionToString()
+		answer = ""
+	end
+
+
+end
+
+local function removeCalc()
+	for i = 0, 2 do --row
+        for j = 0, 2 do --column
+        	group:remove(level[i][j])
+        end
+        group:remove(extra[i])
+    end
+end
+
+local function addCalc()
+	for i = 0, 2 do --row
+        for j = 0, 2 do --column
+        	group:insert(level[i][j])
+        end
+        group:insert(extra[i])
+    end
+end
+
+local function enemyTurn()
+	removeCalc()
+	enemyHit()
+	player.text = displayHealth(player_health)
+	answer = ""
+	changeValues()
+	showQuestion()
+	addCalc()
+end
+
+
+local function enter(event)
+	if event.phase == "began" then
+		playerHit(tonumber(answer))
+		enemy.text = displayHealth(computer_health)
+		enemyTurn()
+	end
+end
+
+local function makeCalc()
+
+	local dx = 100
+    local dy = 100
+
+    --used to created level grid
+    for i = 0, 2 do --row
+        level[i] = {}
+        for j = 0, 2 do --column
+            level[i][j] = widget.newButton{
+            	label = (j+1)*3-i,
+                x = dx*j + 125,
+                y = dy*i + 325,
+                fontSize = 20,
+                width = 80,
+                height = 80,
+                defaultFile = "square.png",
+                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+				onEvent = input
+          }
+          --level[i][j]:scale(0.5,0.5)
+          level[i][j]:rotate(-90)
+          --level[i][j]:setLabel((j + 1)*3 - i)
+          group:insert(level[i][j])
+        end  
+    end
+	
+	extra[0] = widget.newButton{
+            	label = "CE",
+                x = 425,
+                y = 525,
+                fontSize = 20,
+                width = 80,
+                height = 80,
+                defaultFile = "square.png",
+                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+				onEvent = clear
+          }
+	extra[0]:rotate(-90)
+	group:insert(extra[0])
+	
+	extra[1] = widget.newButton{
+            	label = "0",
+                x = 425,
+                y = 425,
+                fontSize = 20,
+                width = 80,
+                height = 80,
+                defaultFile = "square.png",
+                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+				onEvent = input
+          }
+	extra[1]:rotate(-90)
+	group:insert(extra[1])
+	
+	extra[2] = widget.newButton{
+            	label = "=",
+                x = 425,
+                y = 325,
+                fontSize = 30,
+                width = 80,
+                height = 80,
+                defaultFile = "square.png",
+                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+				onEvent = enter
+          }
+	extra[2]:rotate(-90)
+	group:insert(extra[2])
 end
  
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-	local group = self.view
+	group = self.view
     local arena = display.newImage("Arena.png")
 	arena.x = 235
 	arena.y = 450
 	arena.xScale = 1.1
 	arena.yScale = 1.1
-	local Player = display.newText(displayHealth(player_health),120,60,"Georgia",50)
-	Player:setTextColor(240,0,0)
-	Player:rotate(-90)
-	local Enemy=display.newText(displayHealth(computer_health),120,gv.height-60,"Georgia",50)
-	Enemy:setTextColor(240,0,0)
-	Enemy:rotate(-90)
 	
+	group:insert(arena)
+	player = display.newText(displayHealth(player_health),120,60,"Georgia",50)
+	player:setTextColor(240,0,0)
+	player:rotate(-90)
+	group:insert(player)
+	enemy=display.newText(displayHealth(computer_health),120,gv.height-60,"Georgia",50)
+	enemy:setTextColor(240,0,0)
+	enemy:rotate(-90)
+	group:insert(enemy)
+	
+	showQuestion()
+	
+	makeCalc()
 end
  
 -- Called BEFORE scene has moved onscreen:

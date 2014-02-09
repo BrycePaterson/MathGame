@@ -38,16 +38,16 @@ local function handleButton(event)
 		gv.hit = 0.6
 		gv.range = 30
 	elseif s == "6" then 
-		gv.miss = 0.7
+		gv.hit = 0.7
     	gv.range = 30
 	elseif s == "7" then 
-		gv.miss = 0.7
+		gv.hit = 0.7
 		gv.range = 40
 	elseif s == "8" then 
-		gv.miss = 0.8
+		gv.hit = 0.8
     	gv.range = 40
     elseif s == "9" then 
-		gv.miss = 0.8
+		gv.hit = 0.8
     	gv.range = 50
 	end
     
