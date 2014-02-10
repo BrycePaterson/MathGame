@@ -1,9 +1,9 @@
 -- TO DO
---		Add daeath catching condition RAFI
+--		Add daeath catching condition RAFFI (DONE)
 --		player pictures BRYCE
---		add "correct" and "incorrect" RAFI
+--		add "correct" and "incorrect" RAFFI (DONE methods made but not implemented yet. need timers to work properly)
 --		hit animation (players pictures flashing) BRYCE
---		sounds  ???
+--		sounds  ??????
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
@@ -26,6 +26,7 @@ local q
 local answer = ""
 local enemy
 local player
+local over = false
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
@@ -48,18 +49,48 @@ function questionToString()
 	return a.." + "..b.." = "
 end
  
+ local function revert()
+ 
+ 	q:setTextColor(0,0,0)
+ end
+ 
+ local function showColor(rw)
+ 
+ 	if (rw == 0)then
+ 		q:setTextColor(250,0,0)
+	else
+ 		q:setTextColor(0,250,0)
+ 	end
+ 	
+ 	timer.performWithDelay( 1000, revert)
+ end
+ 
+ 
  --function called to determine if the enemy lands a hit
 function enemyHit()
 	if(math.random()<=hr) then
 		player_health = player_health-1	
+		if(player_health == 0)then
+			gv.winner = 0
+			over = true
+			storyboard.gotoScene("gameOver")
+		end
 	end
 end
 
 --function called to determine if the player lands a hit. Parameter: user input
 function playerHit(answer)
 	if(answer==getAnswer()) then
+		--showColor(1)
 		computer_health=computer_health-1
+		if (computer_health == 0) then
+			gv.winner = 1
+			over = true
+			storyboard.gotoScene("gameOver")
+		end
 	end
+	
+	--showColor(0)
 end
 
 --function to display a health of either player as a fraction
@@ -126,11 +157,13 @@ end
 local function enemyTurn()
 	removeCalc()
 	enemyHit()
-	player.text = displayHealth(player_health)
-	answer = ""
-	changeValues()
-	showQuestion()
-	addCalc()
+	if (over == false)then
+		player.text = displayHealth(player_health)
+		answer = ""
+		changeValues()
+		showQuestion()
+		addCalc()
+	end
 end
 
 
@@ -138,7 +171,9 @@ local function enter(event)
 	if event.phase == "began" then
 		playerHit(tonumber(answer))
 		enemy.text = displayHealth(computer_health)
-		enemyTurn()
+		if (over == false)then
+			enemyTurn()
+		end
 	end
 end
 
