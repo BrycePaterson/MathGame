@@ -13,7 +13,7 @@ local function listener( event )
 local function main()
 
 	storyboard.gotoScene("splash")
-	timer.performWithDelay( 1000,listener)
+	timer.performWithDelay( 5000,listener)
 end
 
 main()
