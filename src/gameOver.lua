@@ -22,7 +22,7 @@ end
 function scene:createScene( event )
   local group = self.view
   
-	local text = display.newText("The Game is over",200,100,"Georgia",50)
+	local text = display.newText("The Game is over",200,500,"Georgia",50)
    text:setTextColor(200,200,200)
    text:rotate(-90)
    group:insert(text)

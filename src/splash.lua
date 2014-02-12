@@ -1,5 +1,8 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
+local gv = require("global")
+gv.height = display.contentHeight
+gv.width = display.contentWidth
  
 -- Clear previous scene
 storyboard.removeAll()
@@ -15,6 +18,10 @@ storyboard.removeAll()
 function scene:createScene( event )
   local group = self.view
   
+  
+  
+  background(group)
+    
   --makes game tile to be shown
  local title = display.newImage("Gladiator-Title-Altered.png")
 	title.x = 200

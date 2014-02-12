@@ -22,6 +22,8 @@ end
 function scene:createScene( event )
     local group = self.view
   
+  background(group)
+  
    local text = display.newText("This game was made by",100,400,"Georgia",50)
    local cont = display.newText("Raffi and Bryce",200,400,"Georgia",50)
    text:setTextColor(200,200,200)

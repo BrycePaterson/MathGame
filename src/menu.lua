@@ -8,8 +8,7 @@ local gv = require("global")
 --local height = display.contentHeight
 --local width = display.contentWidth
 
-gv.height = display.contentHeight
-gv.width = display.contentWidth
+
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
@@ -87,6 +86,9 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
     local group = self.view
+  
+    background(group)
+  
   
   	--loads play image
  	  local pl = display.newImage("PLAY.png")
