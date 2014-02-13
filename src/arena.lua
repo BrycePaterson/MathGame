@@ -34,7 +34,6 @@ local miss_mp3 = audio.loadStream("shield_impact_with_sword(MISS).mp3")
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 --------------------------------------------------------------------------------- 
- 
 --function to change the numbers in the question
 function changeValues()
 	a = math.random(0,r)
@@ -51,58 +50,6 @@ function questionToString()
 	return a.." + "..b.." = "
 end
  
- local function revert()
- 
- 	q:setTextColor(0,0,0)
- end
- 
- local function showColor(rw)
- 
- 	if (rw == 0)then
- 		q:setTextColor(250,0,0)
-	else
- 		q:setTextColor(0,250,0)
- 	end
- 	
- 	timer.performWithDelay( 1000, revert)
- end
- 
- 
- --function called to determine if the enemy lands a hit
-function enemyHit()
-	if(math.random()<=hr) then
-		player_health = player_health-1
-		--audio.play(hit_mp3)
-		if(player_health == 0)then
-			gv.winner = 0
-			over = true
-			storyboard.gotoScene("gameOver")
-		end
-	end
-	--audio.play(miss_mp3)
-end
-
---function called to determine if the player lands a hit. Parameter: user input
-function playerHit(answer)
-	if(answer==getAnswer()) then
-		--showColor(1)
-		computer_health=computer_health-1
-		audio.play(hit_mp3)
-		if (computer_health == 0) then
-			gv.winner = 1
-			over = true
-			storyboard.gotoScene("gameOver")
-		end
-	end
-	--showColor(0)
-	audio.play(miss_mp3)
-end
-
---function to display a health of either player as a fraction
-function displayHealth(health)
-	return health.."/5 HP"
-end
-
 local function showQuestion()
 	
 	local box = display.newImage("questionbox.png")
@@ -119,6 +66,88 @@ local function showQuestion()
 	group:insert(q)
 	
 	
+end
+
+function showAnswer()
+	q.text = q.text..getAnswer()
+end
+
+ local function revert()
+ 	q:setTextColor(0,0,0)
+ end
+ 
+ local function showColor(rw)
+ 
+ 	if (rw == 0)then
+ 		q:setTextColor(250,0,0)
+	else
+ 		q:setTextColor(0,250,0)
+ 	end
+ end
+ 
+ --function to play hit sound
+ function hitSound()
+	audio.play(hit_mp3)
+ end
+ 
+ --function to play miss sound
+ function missSound()
+	audio.play(miss_mp3)
+ end
+ 
+ function correct()
+	q.text = "CORRECT!"
+	showColor(1)
+	timer.performWithDelay(1000,revert)
+ end
+ 
+ function wrong()
+	showColor(0)
+	q.text = "WRONG: "..getAnswer()
+	showColor(0)
+	timer.performWithDelay(1000,revert)
+ end
+ --function called to determine if the enemy lands a hit
+function enemyHit()
+	if(math.random()<=hr) then
+		showAnswer()
+		hitSound()
+		player_health = player_health-1
+		player.text = displayHealth(player_health)
+		if(player_health == 0)then
+			gv.winner = 0
+			over = true
+			storyboard.gotoScene("gameOver")
+		end
+	else
+		q.text = q.text..getAnswer()-1
+		missSound()
+	end
+end
+
+function win()
+	storyboard.gotoScene("gameOver")
+end
+--function called to determine if the player lands a hit. Parameter: user input
+function playerHit(answer)
+	if(answer==getAnswer()) then
+		correct()
+		computer_health=computer_health-1
+		hitSound()
+		if (computer_health == 0) then
+			gv.winner = 1
+			over = true
+			timer.performWithDelay(1000,win)
+		end
+	else
+		wrong()
+		missSound()
+	end
+end
+
+--function to display a health of either player as a fraction
+function displayHealth(health)
+	return health.."/5 HP"
 end
 
 local function input(event)
@@ -151,26 +180,31 @@ local function removeCalc()
 end
 
 local function addCalc()
-	for i = 0, 2 do --row
-        for j = 0, 2 do --column
-        	group:insert(level[i][j])
-        end
-        group:insert(extra[i])
-    end
+	--return function()
+		for i = 0, 2 do --row
+			for j = 0, 2 do --column
+				group:insert(level[i][j])
+			end
+			group:insert(extra[i])
+		end
+	--end
 end
 
-local function enemyTurn()
+function initQuestion()
+	answer = ""
+	changeValues()
+	q.text = questionToString()
+end
+
+ local function enemyTurn()
 	removeCalc()
-	enemyHit()
-	if (over == false)then
-		player.text = displayHealth(player_health)
-		answer = ""
-		changeValues()
-		showQuestion()
-		addCalc()
-	end
+	--timer.performWithDelay(5000,addCalc())
+	changeValues()
+	timer.performWithDelay(1000,showQuestion)
+	timer.performWithDelay(3000,enemyHit)
+	addCalc()
+	timer.performWithDelay(5000,initQuestion)
 end
-
 
 local function enter(event)
 	if event.phase == "began" then
