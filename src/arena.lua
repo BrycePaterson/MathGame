@@ -2,8 +2,8 @@
 --		Add daeath catching condition RAFFI (DONE)
 --		player pictures BRYCE (DONE)
 --		add "correct" and "incorrect" RAFFI (DONE methods made but not implemented yet. need timers to work properly)
---		hit animation (players pictures flashing) BRYCE (Need timer to make it work as well
---		sounds  (mp3 files for background music, hit, and miss)
+--		hit animation (players pictures flashing) BRYCE(Need timer to make it work as well)
+--		sounds  (mp3 files for background music, hit, and miss), DONE
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
@@ -27,6 +27,8 @@ local answer = ""
 local enemy
 local player
 local over = false
+local hit_mp3 = audio.loadStream("sword_swipe(HIT).mp3")
+local miss_mp3 = audio.loadStream("shield_impact_with_sword(MISS).mp3")
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
@@ -69,13 +71,15 @@ end
  --function called to determine if the enemy lands a hit
 function enemyHit()
 	if(math.random()<=hr) then
-		player_health = player_health-1	
+		player_health = player_health-1
+		--audio.play(hit_mp3)
 		if(player_health == 0)then
 			gv.winner = 0
 			over = true
 			storyboard.gotoScene("gameOver")
 		end
 	end
+	--audio.play(miss_mp3)
 end
 
 --function called to determine if the player lands a hit. Parameter: user input
@@ -83,19 +87,20 @@ function playerHit(answer)
 	if(answer==getAnswer()) then
 		--showColor(1)
 		computer_health=computer_health-1
+		audio.play(hit_mp3)
 		if (computer_health == 0) then
 			gv.winner = 1
 			over = true
 			storyboard.gotoScene("gameOver")
 		end
 	end
-	
 	--showColor(0)
+	audio.play(miss_mp3)
 end
 
 --function to display a health of either player as a fraction
 function displayHealth(health)
-	return health.."/5"
+	return health.."/5 HP"
 end
 
 local function showQuestion()
@@ -270,11 +275,22 @@ function scene:createScene( event )
 	bad_guy:rotate(-90)
 	group:insert(bad_guy)
 	
-	player = display.newText(displayHealth(player_health),120,gv.height-60,"Georgia",50)
+	local you = display.newText("YOU",50,gv.height-100,"Georgia",50)
+	you:setTextColor(240,0,0)
+	you:rotate(-90)
+	group:insert(you)
+	
+	local baddicus = display.newText("Baddicus",50,100,"Georgia",50)
+	baddicus:setTextColor(240,0,0)
+	baddicus:rotate(-90)
+	group:insert(baddicus)
+	
+	player = display.newText(displayHealth(player_health),120,gv.height-90,"Georgia",50)
 	player:setTextColor(240,0,0)
 	player:rotate(-90)
 	group:insert(player)
-	enemy=display.newText(displayHealth(computer_health),120,60,"Georgia",50)
+	
+	enemy=display.newText(displayHealth(computer_health),120,90,"Georgia",50)
 	enemy:setTextColor(240,0,0)
 	enemy:rotate(-90)
 	group:insert(enemy)

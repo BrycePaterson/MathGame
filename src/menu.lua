@@ -35,7 +35,7 @@ end
 end
 
 local function exit(event)
-  
+	audio.stop()
     os.exit()
 end
 
@@ -88,7 +88,6 @@ function scene:createScene( event )
     local group = self.view
   
     background(group)
-  
   
   	--loads play image
  	  local pl = display.newImage("PLAY.png")

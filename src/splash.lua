@@ -18,7 +18,8 @@ storyboard.removeAll()
 function scene:createScene( event )
   local group = self.view
   
-  
+  local music = audio.loadStream("Math_Gladiator_Music.mp3")
+  audio.play(music,{ loops = -1 })
   
   background(group)
     

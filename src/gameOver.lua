@@ -24,12 +24,27 @@ function scene:createScene( event )
 	
 	background(group)
   
-	local text = display.newText("The Game is over",200,500,"Georgia",50)
+	local text = display.newText("The Game is over",200,gv.height/2,"Georgia",50)
    text:setTextColor(200,200,200)
    text:rotate(-90)
    group:insert(text)
    
+   local winner
    
+   --the player wins
+   if(gv.winner==1) then
+		winner = display.newText("YOU WIN",400,gv.height/2,"Georgia",50)
+		winner:setTextColor(0,250,0)
+		winner:rotate(-90)
+		group:insert(winner)
+   end
+   --the computer wins
+   if(gv.winner==0) then
+		winner = display.newText("BADDICUS WON!",400,gv.height/2,"Georgia",50)
+		winner:setTextColor(250,0,0)
+		winner:rotate(-90)
+		group:insert(winner)
+   end
    --home button
 	local home = widget.newButton{
   x = 50,
