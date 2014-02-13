@@ -56,6 +56,9 @@ end
 
 --This is called automattically when Scene is called
 function scene:createScene( event )
+	group = self.view
+	
+	background(group)
 
     local dx = 100
     local dy = 100
@@ -90,7 +93,12 @@ function scene:createScene( event )
     type.x = 50
     type.y = gv.height/2
     group:insert(type)
-  
+	local description = display.newText("Pick a Difficulty Level",225,100, "Georgia", 25)
+	description.x = 100
+	description.y = gv.height/2
+	description:rotate(-90)
+	group:insert(description)
+   
     --makes home button
     local home = widget.newButton{
         x = 50,

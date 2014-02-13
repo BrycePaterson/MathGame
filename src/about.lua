@@ -24,15 +24,21 @@ function scene:createScene( event )
   
   background(group)
   
-   local text = display.newText("This game was made by",100,400,"Georgia",50)
-   local cont = display.newText("Raffi and Bryce",200,400,"Georgia",50)
+   local text = display.newText("This game was made by Raffi Kudlac and Bryce Paterson",100,gv.height/2,"Georgia",30)
+   local sound = display.newText("Sounds and Music From: http://www.freesfx.co.uk",200,gv.height/2,"Georgia",30)
+   local img = display.newText("Gladiator and arena images by Bryce Paterson",300,gv.height/2,"Georgia",30)
+   local back = display.newText("Background image from: http://www.upphotos.net",400,gv.height/2,"Georgia",30)
    text:setTextColor(200,200,200)
    
    text:rotate(-90)
-   cont:rotate(-90)
-   group:insert(cont)
-   group:insert(text) 
-   
+   sound:rotate(-90)
+   img:rotate(-90)
+   back:rotate(-90)
+   group:insert(sound)
+   group:insert(text)
+   group:insert(img)
+   group:insert(back)
+
    --home button
    local home = widget.newButton{
       x = 50,

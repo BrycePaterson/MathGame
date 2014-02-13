@@ -266,7 +266,7 @@ function scene:createScene( event )
 	
 	local bad_guy = display.newImage("Bad_Guy.png")
 	bad_guy.x = 320
-	bad_guy.y = 150
+	bad_guy.y = 145
 	bad_guy:rotate(-90)
 	group:insert(bad_guy)
 	

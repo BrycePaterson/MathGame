@@ -75,7 +75,7 @@ local function firstTime()
 	local file = io.open(path, "r")
 	
 	if(file==nil)then
-		local alert = native.showAlert( "Hey There","Can we learn more about our game from your expreance", { "Yes", "No" }, writeFirst )
+		local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
 	else
 		readFile()
 	end
