@@ -173,9 +173,9 @@ end
 local function removeCalc()
 	for i = 0, 2 do --row
         for j = 0, 2 do --column
-        	group:remove(level[i][j])
+        	level[i][j].isVisible = false
         end
-        group:remove(extra[i])
+        extra[i].isVisible = false
     end
 end
 
@@ -183,9 +183,9 @@ local function addCalc()
 	--return function()
 		for i = 0, 2 do --row
 			for j = 0, 2 do --column
-				group:insert(level[i][j])
+				level[i][j].isVisible = true
 			end
-			group:insert(extra[i])
+			extra[i].isVisible = true
 		end
 	--end
 end
@@ -194,15 +194,14 @@ function initQuestion()
 	answer = ""
 	changeValues()
 	q.text = questionToString()
+	addCalc()
 end
 
  local function enemyTurn()
-	removeCalc()
 	--timer.performWithDelay(5000,addCalc())
 	changeValues()
 	timer.performWithDelay(1000,showQuestion)
 	timer.performWithDelay(3000,enemyHit)
-	addCalc()
 	timer.performWithDelay(5000,initQuestion)
 end
 
@@ -210,6 +209,7 @@ local function enter(event)
 	if event.phase == "began" then
 		playerHit(tonumber(answer))
 		enemy.text = displayHealth(computer_health)
+		removeCalc()
 		if (over == false)then
 			enemyTurn()
 		end
