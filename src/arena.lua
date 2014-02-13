@@ -1,9 +1,9 @@
 -- TO DO
 --		Add daeath catching condition RAFFI (DONE)
---		player pictures BRYCE
+--		player pictures BRYCE (DONE)
 --		add "correct" and "incorrect" RAFFI (DONE methods made but not implemented yet. need timers to work properly)
---		hit animation (players pictures flashing) BRYCE
---		sounds  ??????
+--		hit animation (players pictures flashing) BRYCE (Need timer to make it work as well
+--		sounds  (mp3 files for background music, hit, and miss)
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
@@ -250,18 +250,31 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	group = self.view
-    local arena = display.newImage("Arena.png")
+    
+	local arena = display.newImage("Arena.png")
 	arena.x = 235
 	arena.y = 450
 	arena.xScale = 1.1
-	arena.yScale = 1.1
-	
+	arena.yScale = 1.1	
 	group:insert(arena)
-	player = display.newText(displayHealth(player_health),120,60,"Georgia",50)
+	
+	local good_guy = display.newImage("Good_Guy.png")
+	good_guy.x = 320
+	good_guy.y = gv.height-150
+	good_guy:rotate(-90)
+	group:insert(good_guy)
+	
+	local bad_guy = display.newImage("Bad_Guy.png")
+	bad_guy.x = 320
+	bad_guy.y = 150
+	bad_guy:rotate(-90)
+	group:insert(bad_guy)
+	
+	player = display.newText(displayHealth(player_health),120,gv.height-60,"Georgia",50)
 	player:setTextColor(240,0,0)
 	player:rotate(-90)
 	group:insert(player)
-	enemy=display.newText(displayHealth(computer_health),120,gv.height-60,"Georgia",50)
+	enemy=display.newText(displayHealth(computer_health),120,60,"Georgia",50)
 	enemy:setTextColor(240,0,0)
 	enemy:rotate(-90)
 	group:insert(enemy)
