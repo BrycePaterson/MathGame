@@ -109,6 +109,7 @@ local function firstTime()
 	
 	if(file==nil)then
 	  writeProgress()
+	  loadProgress()
 		local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
 		
 	else
