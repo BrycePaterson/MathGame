@@ -57,6 +57,7 @@ end
 --This is called automattically when Scene is called
 function scene:createScene( event )
 	group = self.view
+	gv.section = 0
 	
 	background(group)
 
@@ -68,8 +69,13 @@ function scene:createScene( event )
     for i = 0, 2 do --row
         level[i] = {}
         for j = 0, 2 do --column
+         
+          local l = (j+1)*3-i
+          
+          if l > gv.progress[0] then
+          --buttons can not be pressed
             level[i][j] = widget.newButton{
-            	label = (j+1)*3-i,
+              label = (j+1)*3-i,
                 x = dx*j + 200,
                 y = dy*i + 325,
                 fontSize = 20,
@@ -77,11 +83,27 @@ function scene:createScene( event )
                 height = 80,
                 defaultFile = "square.png",
                 labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
-				onEvent = handleButton
+                onEvent = handleButton
           }
-          --level[i][j]:scale(0.5,0.5)
-          level[i][j]:rotate(-90)
-          --level[i][j]:setLabel((j + 1)*3 - i)
+            level[i][j]:setEnabled(false)
+            
+          else
+              --buttons can be pressed
+              level[i][j] = widget.newButton{
+              label = (j+1)*3-i,
+              x = dx*j + 200,
+              y = dy*i + 325,
+              fontSize = 20,
+              width = 80,
+              height = 80,
+              defaultFile = "square.png",
+              labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+              onEvent = handleButton
+          }
+                            
+          end 
+         
+          level[i][j]:rotate(-90)                    
           group:insert(level[i][j])
         end  
     end
@@ -128,6 +150,7 @@ end
 function scene:exitScene( event )
   
   --group:remove(title)
+  storyboard.removeScene(level)
  
 end
  

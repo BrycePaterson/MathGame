@@ -69,24 +69,59 @@ local function writeFirst(event)
 	file = nil
 end
 
+--writes the progress file for progress in each game section
+local function writeProgress()
+
+  local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
+  local file = io.open(path, "w+")
+  
+  for x = 0, 4 do
+    file:write("1 \n")
+  end
+  
+  io.close(file)
+  file = nil
+  
+end
+
+
+local function loadProgress()  --holds how far the user has gotten in each operation
+  
+  local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
+  local file = io.open(path, "r")
+  local data = file:read("*n")
+  
+  gv.progress = {}
+  
+  gv.progress[0] = data
+  
+  io.close(file)
+  file = nil
+  
+end
+
+
 local function firstTime()
 
 	local path = system.pathForFile("first2.txt",system.DocumentsDirectory)
 	local file = io.open(path, "r")
 	
 	if(file==nil)then
+	  writeProgress()
 		local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
+		
 	else
 		readFile()
+		loadProgress()
 	end
 	file = nil
-
+	
 end
  
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
     local group = self.view
-  
+   
     background(group)
   
   	--loads play image
@@ -100,7 +135,6 @@ function scene:createScene( event )
     }
     play:rotate(-90)
 	  group:insert(play)
-	
 	
 	  --loads tutorial image
  	  local tutorial = widget.newButton{
@@ -140,6 +174,10 @@ function scene:createScene( event )
     group:insert(about)
     
     firstTime()
+    
+    --local text = display.newText(gv.progress[0],200,500,"Georgia",50)
+    --text:setTextColor(200,200,200)
+    --text:rotate(-90)
  
 end
 

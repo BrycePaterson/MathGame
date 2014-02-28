@@ -37,6 +37,9 @@ function scene:createScene( event )
 		winner:setTextColor(0,250,0)
 		winner:rotate(-90)
 		group:insert(winner)
+		if gv.progress[gv.section] < 9 then
+		  gv.progress[gv.section] = gv.progress[gv.section] + 1
+	  end
    end
    --the computer wins
    if(gv.winner==0) then

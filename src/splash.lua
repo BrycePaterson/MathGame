@@ -17,6 +17,7 @@ storyboard.removeAll()
 --This is called automattically when Scene is called
 function scene:createScene( event )
   local group = self.view
+  gv.time = 0
   
   local music = audio.loadStream("Math_Gladiator_Music.mp3")
   audio.play(music,{ loops = -1 })

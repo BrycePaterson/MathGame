@@ -1,24 +1,53 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
+storyboard.purgeOnSceneChange = true
 local gv = require("global")
 local widget = require("widget")
+
  
 -- Clear previous scene
 storyboard.removeAll()
  
 -- local forward references should go here --
- 
+local t = 0
+local time = 0
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
+local function write()
+
+  local path = system.pathForFile("tutTime.txt",system.DocumentsDirectory)
+  local file = io.open(path, "a")
+  
+  file:write(gv.time.."\n")
+  io.close(file)
+  file = nil
+
+end
+
 
 local function home(event)
+ 
+  --time = os.difftime(os.time(), time)
+  t2 = os.date('*t')
+  t3 = os.time(t2)
+  
+  gv.time = t3 - time
+  
+    write()
+  --local text = display.newText(time,200,500,"Georgia",50)
+  --text:setTextColor(200,200,200)
+  --text:rotate(-90)
+  
   storyboard.gotoScene("menu")
 end
 
 
 --This is called automattically when Scene is called
 function scene:createScene( event )
+  t = os.date('*t')
+  time = os.time(t)
+  
   local group = self.view
   	local tut = display.newImage("tutorial-page.png")
 	  tut.x = gv.width/2

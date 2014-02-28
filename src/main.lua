@@ -9,13 +9,11 @@ local function listener( event )
    storyboard.gotoScene("menu")
  end
 
-
-
 	--main Function that is called first, calls the splash screen
 local function main()
 
 	storyboard.gotoScene("splash")
-	timer.performWithDelay( 5000,listener)
+	timer.performWithDelay( 1000,listener)
 end
 
 
