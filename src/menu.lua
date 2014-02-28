@@ -7,8 +7,6 @@ local widget = require("widget")
 local gv = require("global")
 --local height = display.contentHeight
 --local width = display.contentWidth
-
-
 -- local forward references should go here --
  
 ---------------------------------------------------------------------------------
@@ -94,6 +92,9 @@ local function loadProgress()  --holds how far the user has gotten in each opera
   gv.progress = {}
   
   gv.progress[0] = data
+  gv.progress[1] = 1
+  gv.progress[2] = 1
+  gv.progress[3] = 1
   
   io.close(file)
   file = nil

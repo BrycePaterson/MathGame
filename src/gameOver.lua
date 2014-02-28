@@ -19,6 +19,20 @@ local function home(event)
   storyboard.gotoScene("menu")
 end
 
+local function writeProgress()
+
+  local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
+  local file = io.open(path, "w+")
+  
+  for x = 0, 4 do
+    file:write(gv.progress[x].."\n")
+  end
+  
+  io.close(file)
+  file = nil
+
+end
+
 function scene:createScene( event )
   group = self.view
 	
@@ -38,7 +52,8 @@ function scene:createScene( event )
 		winner:rotate(-90)
 		group:insert(winner)
 		if gv.progress[gv.section] < 9 then
-		  gv.progress[gv.section] = gv.progress[gv.section] + 1
+		   gv.progress[gv.section] = gv.progress[gv.section] + 1
+		   writeProgress()
 	  end
    end
    --the computer wins
