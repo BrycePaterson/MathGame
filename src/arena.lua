@@ -30,10 +30,29 @@ local over = false
 local hit_mp3 = audio.loadStream("sword_swipe(HIT).mp3")
 local miss_mp3 = audio.loadStream("shield_impact_with_sword(MISS).mp3")
 -- local forward references should go here --
- 
+local level = gv.level
+local t = 0
+local time = 0
+local total_time = 0
+local correct = 0
+local wrong = 0 
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 --------------------------------------------------------------------------------- 
+--function for writing our analytics to a file
+function write()
+	local path = system.pathForFile("addition.txt",system.DocumentsDirectory)
+	local file = io.open(path, "a")
+	
+	t2 = os.date('*t')
+	t3 = os.time(t2)
+	total_time = t3 - time
+	local total = correct + wrong
+	
+	file:write("Level= "..level.."\nTime Spent= "..total_time.."\nQuestions Asked= "..total.."\nCorrect= "..correct.."\nWrong= "..wrong)
+	io.close(file)
+	file = nil
+end
 --function to change the numbers in the question
 function changeValues()
 	a = math.random(0,r)
@@ -99,6 +118,7 @@ end
 	q.text = "CORRECT!"
 	showColor(1)
 	timer.performWithDelay(1000,revert)
+	correct = correct+1
  end
  
  function wrong()
@@ -106,6 +126,7 @@ end
 	q.text = "WRONG: "..getAnswer()
 	showColor(0)
 	timer.performWithDelay(1000,revert)
+	wrong = wrong + 1
  end
  --function called to determine if the enemy lands a hit
 function enemyHit()
@@ -117,6 +138,7 @@ function enemyHit()
 		if(player_health == 0)then
 			gv.winner = 0
 			over = true
+			write()
 			storyboard.gotoScene("gameOver")
 		end
 	else
@@ -126,6 +148,7 @@ function enemyHit()
 end
 
 function win()
+	write()
 	storyboard.gotoScene("gameOver")
 end
 --function called to determine if the player lands a hit. Parameter: user input
@@ -289,6 +312,8 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	group = self.view
+	t = os.date('*t')
+	time = os.time(t)
     
 	local arena = display.newImage("Arena.png")
 	arena.x = 235

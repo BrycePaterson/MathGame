@@ -25,30 +25,39 @@ local function handleButton(event)
     if s=="1" then 
     	gv.hit = 0.3
     	gv.range = 10
+		gv.level = 1
 	elseif s == "2" then 
 		gv.hit = 0.5
     	gv.range = 10
+		gv.level = 2
 	elseif s == "3" then 
 		gv.hit = 0.5
     	gv.range = 20
+		gv.level = 3
 	elseif s == "4" then 
 		gv.hit = 0.6
     	gv.range = 20
+		gv.level = 4
 	elseif s == "5" then 
 		gv.hit = 0.6
 		gv.range = 30
+		gv.level = 5
 	elseif s == "6" then 
 		gv.hit = 0.7
     	gv.range = 30
+		gv.level = 6
 	elseif s == "7" then 
 		gv.hit = 0.7
 		gv.range = 40
+		gv.level = 7
 	elseif s == "8" then 
 		gv.hit = 0.8
     	gv.range = 40
+		gv.level = 8
     elseif s == "9" then 
 		gv.hit = 0.8
     	gv.range = 50
+		gv.level = 9
 	end
     
 	storyboard.gotoScene("arena")
