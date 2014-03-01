@@ -19,6 +19,10 @@ local a= math.random(0,r)
 local b= math.random(0,r)
 local player_health = 5
 local computer_health = 5
+local bad_healthbar
+local bad_healthbar_health
+local good_healthbar
+local good_healthbar_health
 local level = {}
 local extra = {}
 local group
@@ -135,7 +139,10 @@ function enemyHit()
 		hitSound()
 		player_health = player_health-1
 		player.text = displayHealth(player_health)
+		good_healthbar_health.xScale = 0.7*player_health/5
+		good_healthbar_health.y = gv.height-110-(295*0.7/10)*(5-player_health)
 		if(player_health == 0)then
+			group:remove(good_healthbar_health)
 			gv.winner = 0
 			over = true
 			write()
@@ -156,8 +163,11 @@ function playerHit(answer)
 	if(answer==getAnswer()) then
 		correct()
 		computer_health=computer_health-1
+		bad_healthbar_health.xScale = 0.7*computer_health/5
+		bad_healthbar_health.y = 110-(295*0.7/10)*(5-computer_health)
 		hitSound()
 		if (computer_health == 0) then
+			group:remove(bad_healthbar_health)
 			gv.winner = 1
 			over = true
 			timer.performWithDelay(1000,win)
@@ -343,6 +353,34 @@ function scene:createScene( event )
 	baddicus:setTextColor(240,0,0)
 	baddicus:rotate(-90)
 	group:insert(baddicus)
+	
+	bad_healthbar = display.newImage("health_bar_background.png")
+	bad_healthbar.x = 85
+	bad_healthbar.y = 110
+	bad_healthbar.xScale = 0.7
+	bad_healthbar:rotate(-90)
+	group:insert(bad_healthbar)
+	
+	bad_healthbar_health = display.newImage("health_bar_health.png")
+	bad_healthbar_health.x = 85
+	bad_healthbar_health.y = 110
+	bad_healthbar_health.xScale = 0.7
+	bad_healthbar_health:rotate(-90)
+	group:insert(bad_healthbar_health)
+	
+	good_healthbar = display.newImage("health_bar_background.png")
+	good_healthbar.x = 85
+	good_healthbar.y = gv.height-110
+	good_healthbar.xScale = 0.7
+	good_healthbar:rotate(-90)
+	group:insert(good_healthbar)
+	
+	good_healthbar_health = display.newImage("health_bar_health.png")
+	good_healthbar_health.x = 85
+	good_healthbar_health.y = gv.height-110
+	good_healthbar_health.xScale = 0.7
+	good_healthbar_health:rotate(-90)
+	group:insert(good_healthbar_health)
 	
 	player = display.newText(displayHealth(player_health),120,gv.height-90,"Georgia",50)
 	player:setTextColor(240,0,0)
