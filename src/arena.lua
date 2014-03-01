@@ -44,11 +44,11 @@ function write()
 	local path = system.pathForFile("addition.txt",system.DocumentsDirectory)
 	local file = io.open(path, "a")
 	
+	
 	t2 = os.date('*t')
 	t3 = os.time(t2)
 	total_time = t3 - time
 	local total = corr + incorr
-	
 	file:write("\n\nLevel= "..L.."\nTime Spent= "..total_time.."\nQuestions Asked= "..total.."\nCorrect= "..corr.."\nWrong= "..incorr)
 	io.close(file)
 	file = nil

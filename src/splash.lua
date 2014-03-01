@@ -3,7 +3,7 @@ local scene = storyboard.newScene()
 local gv = require("global")
 gv.height = display.contentHeight
 gv.width = display.contentWidth
- 
+local time_path = system.pathForFile("total_time.txt",system.DocumentsDirectory)
 -- Clear previous scene
 storyboard.removeAll()
  
@@ -18,6 +18,20 @@ storyboard.removeAll()
 function scene:createScene( event )
   local group = self.view
   gv.time = 0
+  
+  local total_time = io.open(time_path, "r")
+  if(total_time==nil)then
+	gv.totalTime = 0
+	local total_time_write = io.open(time_path, "w")
+	total_time_write:write(gv.totalTime)
+	io.close(total_time_write)
+	total_time_write = nil
+  else
+	gv.totalTime = total_time:read("*n")
+  end
+  local start = os.date('*t')
+  gv.start_time = os.time(start)
+  total_time = nil
   
   local music = audio.loadStream("Math_Gladiator_Music.mp3")
   audio.play(music,{ loops = -1 })

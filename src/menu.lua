@@ -5,6 +5,7 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
 local gv = require("global")
+local time_path = system.pathForFile("total_time.txt",system.DocumentsDirectory)
 --local height = display.contentHeight
 --local width = display.contentWidth
 -- local forward references should go here --
@@ -33,6 +34,14 @@ end
 end
 
 local function exit(event)
+	local stop = os.date('*t')
+	local stop_time = os.time(stop)
+	local time_played = stop_time - gv.start_time
+	gv.totalTime = gv.totalTime + time_played
+	local totalTime_write = io.open(time_path, "w+")
+	totalTime_write:write(gv.totalTime)
+	io.close(totalTime_write)
+	totalTime_write = nil
 	audio.stop()
     os.exit()
 end
@@ -126,7 +135,6 @@ local function firstTime()
 	  loadProgress()
 	  writeDate()
 		local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
-		
 	else
 		readFile()
 		loadProgress()
