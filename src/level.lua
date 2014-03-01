@@ -84,16 +84,21 @@ function scene:createScene( event )
           if l > gv.progress[0] then
           --buttons can not be pressed
             level[i][j] = widget.newButton{
-              label = (j+1)*3-i,
+              --label = (j+1)*3-i,
                 x = dx*j + 200,
                 y = dy*i + 325,
                 fontSize = 20,
                 width = 80,
                 height = 80,
-                defaultFile = "square.png",
-                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+                defaultFile = "lock_square.png",
+                --labelColor = { default={ 220, 220,220 }, over={ 0, 0, 0, 100 } },      
+                labelColor = { default = { 163, 25, 12 }, over = {0} },       
                 onEvent = handleButton
           }
+          --level[i][j].label:setTextColor(255,200,5,150)
+          --level[i][j].label.color.over = {0}
+          --level[i][j].label.color.default    = { 255, 255, 255, 150 }
+          
             level[i][j]:setEnabled(false)
             
           else

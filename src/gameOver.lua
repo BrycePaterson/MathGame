@@ -24,7 +24,7 @@ local function writeProgress()
   local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
   local file = io.open(path, "w+")
   
-  for x = 0, 4 do
+  for x = 0, 3 do
     file:write(gv.progress[x].."\n")
   end
   

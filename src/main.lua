@@ -28,4 +28,19 @@ function background(g)
 
 end
 
+--method made for bryce
+function totalTutTime()
+
+local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
+  local file = io.open(path, "r")
+  local a
+  local sum = 0
+  
+  for line in file:lines() do
+   a = line
+   sum = sum + tonumber(a)
+  end
+  
+  return sum
+end
 main()

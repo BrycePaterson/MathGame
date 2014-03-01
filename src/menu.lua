@@ -99,8 +99,22 @@ local function loadProgress()  --holds how far the user has gotten in each opera
   io.close(file)
   file = nil
   
+  gv.section = 0
+  
 end
 
+local function writeDate()
+
+	local path = system.pathForFile("date.txt",system.DocumentsDirectory)
+  	local file = io.open(path, "w+")
+  	
+  	file:write(os.date("%c"))
+  	
+  	io.close(file)
+  	
+  	file = nil
+
+end
 
 local function firstTime()
 
@@ -110,6 +124,7 @@ local function firstTime()
 	if(file==nil)then
 	  writeProgress()
 	  loadProgress()
+	  writeDate()
 		local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
 		
 	else
