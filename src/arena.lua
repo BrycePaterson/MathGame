@@ -140,7 +140,7 @@ function enemyHit()
 		player_health = player_health-1
 		player.text = displayHealth(player_health)
 		good_healthbar_health.xScale = 0.7*player_health/5
-		good_healthbar_health.y = gv.height-110-(295*0.7/10)*(5-player_health)
+		good_healthbar_health.y = gv.height-110+(295*0.7/10)*(5-player_health)
 		if(player_health == 0)then
 			group:remove(good_healthbar_health)
 			gv.winner = 0
