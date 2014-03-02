@@ -51,7 +51,14 @@ function scene:createScene( event )
 		winner:setTextColor(0,250,0)
 		winner:rotate(-90)
 		group:insert(winner)
-		if gv.progress[gv.section] < 9 then
+		
+		--local text = display.newText(gv.progress[section],200,100,"Georgia",50)
+    --text:setTextColor(200,200,200)
+    
+    --local text = display.newText(gv.levelPlayed,200,300,"Georgia",50)
+    --text:setTextColor(200,200,200)
+   
+		if gv.progress[gv.section] < 9  and gv.progress[gv.section] == gv.levelPlayed then
 		   gv.progress[gv.section] = gv.progress[gv.section] + 1
 		   writeProgress()
 	  end

@@ -6,9 +6,6 @@ local scene = storyboard.newScene()
 local widget = require("widget")
 local gv = require("global")
 local time_path = system.pathForFile("total_time.txt",system.DocumentsDirectory)
---local height = display.contentHeight
---local width = display.contentWidth
--- local forward references should go here --
  
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -82,7 +79,7 @@ local function writeProgress()
   local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
   local file = io.open(path, "w+")
   
-  for x = 0, 4 do
+  for x = 0, 3 do
     file:write("1 \n")
   end
   

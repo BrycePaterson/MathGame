@@ -22,6 +22,8 @@ local function handleButton(event)
 	local s = event.target
 	s = s:getLabel()
 	
+	gv.levelPlayed = tonumber(s)
+	
     if s=="1" then 
     	gv.hit = 0.3
     	gv.range = 10
@@ -95,10 +97,7 @@ function scene:createScene( event )
                 labelColor = { default = { 163, 25, 12 }, over = {0} },       
                 onEvent = handleButton
           }
-          --level[i][j].label:setTextColor(255,200,5,150)
-          --level[i][j].label.color.over = {0}
-          --level[i][j].label.color.default    = { 255, 255, 255, 150 }
-          
+         
             level[i][j]:setEnabled(false)
             
           else
