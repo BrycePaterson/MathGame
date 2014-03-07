@@ -1,0 +1,61 @@
+
+
+Level= 1
+Time Spent= 49
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 2
+Time Spent= 37
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 3
+Time Spent= 39
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 4
+Time Spent= 59
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 5
+Time Spent= 42
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 6
+Time Spent= 80
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 7
+Time Spent= 51
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 8
+Time Spent= 41
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 9
+Time Spent= 43
+Questions Asked= 5
+Correct= 5
+Wrong= 0
+
+Level= 9
+Time Spent= 89
+Questions Asked= 7
+Correct= 4
+Wrong= 3
