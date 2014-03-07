@@ -1,0 +1,10 @@
+Notes:  R -Claculator buttons and level buttons changed.  Scroll for calculator?
+	B -Change of player and user health/name information change
+	B -drop the triforce :(
+	B /R-add animations to attacks (player swing/enemy flash)->BODY AND ARM IMAGES
+	B -feedback on game-ending screen + next level button
+	B -improve tutorial
+	R -add subtraction, multiplication. division
+	? -add timer/attack multiplyier???
+	B /R-add Boss galdiator(category symbol)
+	? -Fit to all screens
