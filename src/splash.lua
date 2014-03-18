@@ -32,6 +32,7 @@ function scene:createScene( event )
   local start = os.date('*t')
   gv.start_time = os.time(start)
   total_time = nil
+  gv.section = 0
   
   local music = audio.loadStream("Math_Gladiator_Music.mp3")
   audio.play(music,{ loops = -1 })

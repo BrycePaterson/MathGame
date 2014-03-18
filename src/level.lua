@@ -5,6 +5,9 @@ local gv = require("global")
 local level = {}  --array used to hold level grid
 -- Clear previous scene
 storyboard.removeAll()
+local asmd = {} --holds type text
+local type
+local group
  
 -- local forward references should go here --
  
@@ -65,25 +68,21 @@ local function handleButton(event)
 	storyboard.gotoScene("arena")
 end
 
---This is called automattically when Scene is called
-function scene:createScene( event )
-	group = self.view
-	gv.section = 0
-	
-	background(group)
-
+--changes mathematical operation text
+ 
+ 
+ local function LevelCreator()
+ 
     local dx = 100
     local dy = 100
-
-    local group = self.view
-    --used to created level grid
-    for i = 0, 2 do --row
+ 
+ for i = 0, 2 do --row
         level[i] = {}
         for j = 0, 2 do --column
          
           local l = (j+1)*3-i
           
-          if l > gv.progress[0] then
+          if l > gv.progress[gv.section] then
           --buttons can not be pressed
             level[i][j] = widget.newButton{
               --label = (j+1)*3-i,
@@ -120,9 +119,69 @@ function scene:createScene( event )
           group:insert(level[i][j])
         end  
     end
+ end
+ 
+ 
+ local function up(event)
+
+    if event.phase == "began" then
+      if (gv.section ==3) then
+          gv.section = 0
+      else
+          gv.section = gv.section +1
+      end
+       
+       type.text = asmd[gv.section]
+       
+       for i = 0, 2 do --row
+        for j = 0, 2 do --column
+            level[i][j]:removeSelf()
+        end
+       end
+       LevelCreator()
+   end
+
+end
+
+
+--changes mathematical operation text
+local function down(event)
+  
+  
+  if event.phase == "began" then
+      if (gv.section ==0) then
+          gv.section = 3
+      else
+          gv.section = gv.section -1
+      end
+              
+       type.text = asmd[gv.section]
+       for i = 0, 2 do --row
+        for j = 0, 2 do --column
+            level[i][j]:removeSelf()
+        end
+       end
+       LevelCreator()
+   end
+ end
+
+--This is called automattically when Scene is called
+function scene:createScene( event )
+	group = self.view
+	
+	asmd[0]= "Addition"
+	asmd[1] = "Subtraction"
+	asmd[2] = "Multiplication"
+	asmd[3] = "Division"
+	
+	background(group)
+
+    local group = self.view
+    --used to created level grid
+    LevelCreator()
     
     --used to display what kind of level you are going to play
-    local type = display.newText("Addition",200,100,"Georgia",50)
+    type = display.newText(asmd[gv.section],200,100,"Georgia",50)
     type:setTextColor(200,200,200)
     type:rotate(-90)
     type.x = 50
@@ -144,6 +203,34 @@ function scene:createScene( event )
     home:rotate(-90)
     home:scale(0.5,0.5)
     group:insert(home)
+    
+    
+    --makes right arrow button
+    local right = widget.newButton{
+    
+      x = 70,
+      y =200,
+      defaultFile = "rightarrow.png",
+      onEvent = up,
+      
+    }
+    right:rotate(-90)
+    right:scale(0.3,0.3)
+    group:insert(right)
+    
+    
+    --makes left arrow button
+    local left = widget.newButton{
+    
+      x = 70,
+      y =gv.height - 210,
+      defaultFile = "rightarrow.png",
+      onEvent = down,
+      
+    }
+    left:rotate(90)
+    left:scale(0.3,0.3)
+    group:insert(left)
  
 end
  

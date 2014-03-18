@@ -93,19 +93,15 @@ local function loadProgress()  --holds how far the user has gotten in each opera
   
   local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
   local file = io.open(path, "r")
-  local data = file:read("*n")
   
   gv.progress = {}
-  
-  gv.progress[0] = data
-  gv.progress[1] = 1
-  gv.progress[2] = 1
-  gv.progress[3] = 1
+  for x = 0, 3 do
+      local data = file:read("*n")
+      gv.progress[x] = data
+  end
   
   io.close(file)
   file = nil
-  
-  gv.section = 0
   
 end
 

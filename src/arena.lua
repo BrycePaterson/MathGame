@@ -40,6 +40,7 @@ local time = 0
 local total_time = 0
 local corr = 0
 local incorr = 0 
+local divanswer =0
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 --------------------------------------------------------------------------------- 
@@ -59,18 +60,47 @@ function write()
 end
 --function to change the numbers in the question
 function changeValues()
-	a = math.random(0,r)
-	b = math.random(0,r)
+
+
+  if gv.section == 1 then
+      a = math.random(0,r/2)
+      b = math.random(r/2,r)
+  elseif gv.section == 3 then
+      a = math.random(0,r)
+      divanswer = math.random(0,r)
+      b = a * divanswer
+  else
+	   a = math.random(0,r)
+	   b = math.random(0,r)
+   end
 end
 
 --function to get the answer of the question
 function getAnswer()
-	return (a+b)
+	
+	if gv.section ==0 then
+	   return (a+b)
+  elseif gv.section == 1 then
+     return (b-a)
+  elseif gv.section == 2 then 
+     return (a*b)
+  else
+     return (a/b) 
+  end
 end
 
 --question to return a string of the question
 function questionToString()
-	return a.." + "..b.." = "
+	
+	if gv.section ==0 then
+     return a.." + "..b.." = "
+  elseif gv.section == 1 then
+     return b.." - "..a.." = "
+  elseif gv.section == 2 then 
+     return a.." * "..b.." = "
+  else
+     return a.." / "..b.." = "
+   end
 end
  
 local function showQuestion()

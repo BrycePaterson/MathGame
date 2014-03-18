@@ -4,6 +4,8 @@
 	--gv.permission (1 for yes, 0 for no)
 	--gv.height
 	--gv.width
+	--gv.section -- 0 for addition; 1 for subtraction, 2 for Multiplication, 3 for Division
+	--gv.progress
 
 g = {}
 
