@@ -41,6 +41,8 @@ local total_time = 0
 local corr = 0
 local incorr = 0 
 local divanswer =0
+
+local calcpic = "stone.png"
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 --------------------------------------------------------------------------------- 
@@ -61,13 +63,12 @@ end
 --function to change the numbers in the question
 function changeValues()
 
-
   if gv.section == 1 then
       a = math.random(0,r/2)
       b = math.random(r/2,r)
   elseif gv.section == 3 then
-      a = math.random(0,r)
-      divanswer = math.random(0,r)
+      a = math.random(1,r)
+      divanswer = math.random(1,r)
       b = a * divanswer
   else
 	   a = math.random(0,r)
@@ -85,7 +86,7 @@ function getAnswer()
   elseif gv.section == 2 then 
      return (a*b)
   else
-     return (a/b) 
+     return (b/a) 
   end
 end
 
@@ -97,9 +98,9 @@ function questionToString()
   elseif gv.section == 1 then
      return b.." - "..a.." = "
   elseif gv.section == 2 then 
-     return a.." * "..b.." = "
+     return a.." x "..b.." = "
   else
-     return a.." / "..b.." = "
+     return b.." / "..a.." = "
    end
 end
  
@@ -243,14 +244,13 @@ local function removeCalc()
 end
 
 local function addCalc()
-	--return function()
+	
 		for i = 0, 2 do --row
 			for j = 0, 2 do --column
 				level[i][j].isVisible = true
 			end
 			extra[i].isVisible = true
 		end
-	--end
 end
 
 function initQuestion()
@@ -295,8 +295,8 @@ local function makeCalc()
                 fontSize = 20,
                 width = 80,
                 height = 80,
-                defaultFile = "square.png",
-                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+                defaultFile = calcpic,
+                labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = input
           }
           --level[i][j]:scale(0.5,0.5)
@@ -313,8 +313,8 @@ local function makeCalc()
                 fontSize = 20,
                 width = 80,
                 height = 80,
-                defaultFile = "square.png",
-                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+                defaultFile = calcpic,
+                labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = clear
           }
 	extra[0]:rotate(-90)
@@ -327,8 +327,8 @@ local function makeCalc()
                 fontSize = 20,
                 width = 80,
                 height = 80,
-                defaultFile = "square.png",
-                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+                defaultFile = calcpic,
+                labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = input
           }
 	extra[1]:rotate(-90)
@@ -341,8 +341,8 @@ local function makeCalc()
                 fontSize = 30,
                 width = 80,
                 height = 80,
-                defaultFile = "square.png",
-                labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+                defaultFile = calcpic,
+                labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = enter
           }
 	extra[2]:rotate(-90)
@@ -361,6 +361,13 @@ function scene:createScene( event )
 	arena.xScale = 1.1
 	arena.yScale = 1.1	
 	group:insert(arena)
+	
+	local scroll = display.newImage("scroll.png")
+	scroll.x = gv.width/2 + 30
+	scroll.y = gv.height/2
+	scroll.xScale = 0.75
+	scroll.yscale = 0.05
+	group:insert(scroll)
 	
 	local good_guy = display.newImage("Good_Guy.png")
 	good_guy.x = 320

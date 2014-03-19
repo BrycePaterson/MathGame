@@ -105,11 +105,11 @@ end
               label = (j+1)*3-i,
               x = dx*j + 200,
               y = dy*i + 325,
-              fontSize = 20,
+              fontSize = 25,
               width = 80,
               height = 80,
-              defaultFile = "square.png",
-              labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+              defaultFile = "Stone.png",             
+              labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
               onEvent = handleButton
           }
                             
