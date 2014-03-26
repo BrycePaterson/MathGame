@@ -211,7 +211,7 @@ end
 
 --function to display a health of either player as a fraction
 function displayHealth(health)
-	return health.."/5 HP"
+	return health.."/5"
 end
 
 local function input(event)
@@ -381,12 +381,28 @@ function scene:createScene( event )
 	bad_guy:rotate(-90)
 	group:insert(bad_guy)
 	
-	local you = display.newText("YOU",50,gv.height-100,"Georgia",50)
+	local good_background = display.newImage("Player_background.png")
+	good_background.x = 65
+	good_background.y = display.contentHeight-110
+	good_background.xScale = 0.82
+	good_background.yScale = 0.7
+	good_background:rotate(-90)
+	group:insert(good_background)
+	
+	local you = display.newText("YOU",50,gv.height-70,"Georgia",50)
 	you:setTextColor(240,0,0)
 	you:rotate(-90)
 	group:insert(you)
 	
-	local baddicus = display.newText("Baddicus",50,100,"Georgia",50)
+	local bad_background = display.newImage("Player_background.png")
+	bad_background.x = 65
+	bad_background.y = 110
+	bad_background.xScale = 0.82
+	bad_background.yScale = 0.7
+	bad_background:rotate(-90)
+	group:insert(bad_background)
+	
+	local baddicus = display.newText("Badicus",50,150,"Georgia",35)
 	baddicus:setTextColor(240,0,0)
 	baddicus:rotate(-90)
 	group:insert(baddicus)
@@ -419,12 +435,12 @@ function scene:createScene( event )
 	good_healthbar_health:rotate(-90)
 	group:insert(good_healthbar_health)
 	
-	player = display.newText(displayHealth(player_health),120,gv.height-90,"Georgia",50)
+	player = display.newText(displayHealth(player_health),50,gv.height-180,"Georgia",25)
 	player:setTextColor(240,0,0)
 	player:rotate(-90)
 	group:insert(player)
 	
-	enemy=display.newText(displayHealth(computer_health),120,90,"Georgia",50)
+	enemy=display.newText(displayHealth(computer_health),50,40,"Georgia",25)
 	enemy:setTextColor(240,0,0)
 	enemy:rotate(-90)
 	group:insert(enemy)
