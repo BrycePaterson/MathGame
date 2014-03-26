@@ -1,8 +1,15 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-local widget = require("widget")
 local gv = require("global")
- 
+local widget = require("widget")
+
+local gimages ={}
+local cost = {}
+local current = 0
+local group 
+local box
+local q
+local money
 -- Clear previous scene
 storyboard.removeAll()
  
@@ -12,100 +19,167 @@ storyboard.removeAll()
 -- BEGINNING OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
 
-
---This is called automattically when Scene is called
-
 local function home(event)
   storyboard.gotoScene("menu")
 end
 
-local function writeProgress()
 
-  local path = system.pathForFile("progress.txt",system.DocumentsDirectory)
-  local file = io.open(path, "w+")
-  
-  for x = 0, 3 do
-    file:write(gv.progress[x].."\n")
-  end
-  
-  io.close(file)
-  file = nil
+
+local function dispimage()
+
+	gimages[current].x = 180
+	gimages[current].y = gv.height/2
+	gimages[current].isVisible = true
+	group:insert(gimages[current])
+	
+	q.text = "Cost $"..cost[current]
 
 end
 
+local function removeimage()
+
+	gimages[current].isVisible = false
+
+end
+
+local function next(event)
+
+	if event.phase == "began" then
+		removeimage()
+		
+		if(current>= OP)then
+			current =0
+		else
+		
+			current = current+1
+		end
+		
+		dispimage()
+	end
+end
+
+local function prev(event)
+
+	if event.phase == "began" then
+		removeimage()
+		
+		if(current== 0)then
+			current = OP
+		else
+		
+			current = current-1
+		end
+		dispimage()
+	end
+end
+
+local function loadimage()
+
+	gimages[0] = display.newImage("Good_Guy.png")
+	gimages[1] = display.newImage("Bad_Guy.png")
+	cost[0] = 100
+	cost[1] = 150
+	
+	for x = 0,1 do
+		gimages[x].isVisible = false
+		gimages[x]:rotate(-90)
+	end
+
+end
+
+
+--This is called automattically when Scene is called
 function scene:createScene( event )
   group = self.view
-	
-	background(group)
+  background(group)
   
-	local text = display.newText("The Game is over",200,gv.height/2,"Georgia",50)
-   text:setTextColor(200,200,200)
-   text:rotate(-90)
-   group:insert(text)
-   
-   local winner
-   
-   --the player wins
-   if(gv.winner==1) then
-		winner = display.newText("YOU WIN",400,gv.height/2,"Georgia",50)
-		winner:setTextColor(0,250,0)
-		winner:rotate(-90)
-		group:insert(winner)
-		
-		local winnings = display.newText("You won "..(2*gv.level).." gold",300,gv.height/2,"Georgia",50)
-		winnings:setTextColor(0,250,0)
-		winnings:rotate(-90)
-		group:insert(winnings)
-		
-		gv.gold = gv.gold + gv.level*2
-		writeMoney(false)
-		
-		--local text = display.newText(gv.progress[section],200,100,"Georgia",50)
-    --text:setTextColor(200,200,200)
+  
+  --makes home button
+    local home = widget.newButton{
+        x = 50,
+        y = gv.height - 100,
+        defaultFile = "Home.png",
+        onEvent = home,
+    }
+    home:rotate(-90)
+    home:scale(0.5,0.5)
+    group:insert(home)
+ 
+ 	--makes right arrow button
+    local right = widget.newButton{
     
-    --local text = display.newText(gv.levelPlayed,200,300,"Georgia",50)
-    --text:setTextColor(200,200,200)
-   
-		if gv.progress[gv.section] < 9  and gv.progress[gv.section] == gv.levelPlayed then
-		   gv.progress[gv.section] = gv.progress[gv.section] + 1
-		   writeProgress()
-	  end
-   end
-   --the computer wins
-   if(gv.winner==0) then
-		winner = display.newText("BADDICUS WON!",400,gv.height/2,"Georgia",50)
-		winner:setTextColor(250,0,0)
-		winner:rotate(-90)
-		group:insert(winner)
-   end
-   --home button
-	local home = widget.newButton{
-  x = 50,
-  y = gv.height - 100,
-  defaultFile = "Home.png",
-  onEvent = home,
-  }
-  home:rotate(-90)
-  home:scale(0.5,0.5)
-  group:insert(home)
-  
-  
-   local cc = display.newImage("questionbox.png")
+      x = gv.width/2,
+      y =gv.height/2  - 210,
+      defaultFile = "rightarrow.png",
+      onEvent = next,
+      
+    }
+    right:rotate(-90)
+    right:scale(0.5,0.5)
+    group:insert(right)
+    
+    
+    --makes left arrow button
+    local left = widget.newButton{
+    
+      x = gv.width/2,
+      y =gv.height/2 + 210,
+      defaultFile = "rightarrow.png",
+      onEvent = prev,
+    }
+    left:rotate(90)
+    left:scale(0.5,0.5)
+   	group:insert(left)
+ 
+ 	box = display.newImage("card.png")
+	box:rotate(-90)
+	box:scale(1,1.1)
+	box.y = gv.height/2
+	box.x = gv.width/2 - 60
+	
+	
+	group:insert(box)
+	
+	loadimage()
+	
+	local c = display.newImage("questionbox.png")
+	c:rotate(-90)
+	c:scale(1,1)
+	c.y = gv.height/2
+	c.x = box.contentWidth + 50
+	c.xScale = 0.5
+	c.yScale = 0.5
+	
+	group:insert(c)
+	
+	q = display.newText("Cost $"..cost[current],c.x,c.y,"Georgia",50)
+	q:rotate(-90)
+	q:setTextColor(0,0,0)
+
+	group:insert(q)
+	
+	gv.hold =box.contentWidth + 50
+	
+	local cc = display.newImage("questionbox.png")
 	cc:rotate(-90)
 	cc:scale(1,1)
 	cc.y = gv.height/2 - 300
-	cc.x = 400
+	cc.x = box.contentWidth + 50
 	cc.xScale = 0.3
 	cc.yScale = 0.5
  	
  	group:insert(cc)
  	
- 	money = display.newText("$"..gv.gold,cc.x,gv.height/2 - 300,"Greorgia",50)
+ 	loadMoney()
+ 	money = display.newText("$"..gv.gold,c.x,gv.height/2 - 300,"Greorgia",50)
  	money:rotate(-90)
  	money:setTextColor(0,0,0)
  	
  	group:insert(money)
-  
+ 	
+ 	
+ 	dispimage()
+ 
 end
  
 -- Called BEFORE scene has moved onscreen:

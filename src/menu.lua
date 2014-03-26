@@ -16,6 +16,11 @@ local function play(event)
   storyboard.gotoScene("level")
 
 end 
+
+local function localstore(event)
+
+	storyboard.gotoScene("localstore")
+end
  
  local function about(event)
  
@@ -124,11 +129,14 @@ local function firstTime()
 	local file = io.open(path, "r")
 	
 	if(file==nil)then
+	  writeMoney(true)
+	  loadMoney()
 	  writeProgress()
 	  loadProgress()
 	  writeDate()
-		local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
+	local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
 	else
+		loadMoney()
 		readFile()
 		loadProgress()
 	end
@@ -190,6 +198,20 @@ function scene:createScene( event )
   
     about:rotate(-90)
     group:insert(about)
+    
+    
+    --loads Store button
+    local st = display.newImage("Store.png")
+    st.isVisible = false
+    local store = widget.newButton{
+        x = st.contentHeight,
+        y = st.contentHeight + 100,
+        defaultFile = "Store.png",
+        onEvent = localstore,
+    }
+    
+    store:rotate(-90)
+    group:insert(store)
     
     firstTime()
     

@@ -6,7 +6,8 @@
 	--gv.width
 	--gv.section -- 0 for addition; 1 for subtraction, 2 for Multiplication, 3 for Division
 	--gv.progress
-
+	--gv.gold --holds how much money the user has
+	--gv.owned holds a record of which skins the user has bought
 g = {}
 
 return g
