@@ -8,6 +8,8 @@
 	--gv.progress
 	--gv.gold --holds how much money the user has
 	--gv.owned holds a record of which skins the user has bought
+	--gv.currentskin
+	--gv.skinlist
 g = {}
 
 return g

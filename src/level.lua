@@ -65,7 +65,7 @@ local function handleButton(event)
 		gv.level = 9
 	end
     
-	storyboard.gotoScene("arena")
+	storyboard.gotoScene("localstore")
 end
 
 --changes mathematical operation text

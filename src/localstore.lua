@@ -10,6 +10,9 @@ local group
 local box
 local q
 local money
+local text --for testing
+local owned --for testing
+local cloneOwned = {}
 -- Clear previous scene
 storyboard.removeAll()
  
@@ -23,7 +26,9 @@ local function home(event)
   storyboard.gotoScene("menu")
 end
 
-
+local function battle(event)
+	storyboard.gotoScene("arena")
+end
 
 local function dispimage()
 
@@ -32,7 +37,13 @@ local function dispimage()
 	gimages[current].isVisible = true
 	group:insert(gimages[current])
 	
-	q.text = "Cost $"..cost[current]
+	if gv.owned[current] == 0 then 
+		q.text = "Owned"
+		gv.currentskin = gv.skinlist[current]
+	else
+		q.text = "Cost $"..cost[current]
+		gv.currentskin = gv.skinlist[3]
+	end
 
 end
 
@@ -45,6 +56,7 @@ end
 local function next(event)
 
 	if event.phase == "began" then
+	
 		removeimage()
 		
 		if(current>= OP)then
@@ -55,6 +67,9 @@ local function next(event)
 		end
 		
 		dispimage()
+		
+		 --text.text = current
+		 --owned.text = gv.owned[current]
 	end
 end
 
@@ -70,27 +85,71 @@ local function prev(event)
 			current = current-1
 		end
 		dispimage()
+		 --text.text = current
+		 --owned.text = gv.owned[current]
 	end
 end
 
 local function loadimage()
 
-	gimages[0] = display.newImage("Good_Guy.png")
-	gimages[1] = display.newImage("Bad_Guy.png")
+	gimages[0] = display.newImage("Good_Guy_b_complete.png")
+	gimages[1] = display.newImage("Good_Guy_g_complete.png")
+	gimages[2] = display.newImage("Good_Guy_s_complete.png")
+	gv.skinlist[0] = "Good_Guy_b_complete.png"
+	gv.skinlist[1] = "Good_Guy_g_complete.png"
+	gv.skinlist[2] = "Good_Guy_s_complete.png"
+	gv.skinlist[3] = "Good_Guy.png"
+	
 	cost[0] = 100
 	cost[1] = 150
+	cost[2] = 200
 	
-	for x = 0,1 do
+	for x = 0,OP do
 		gimages[x].isVisible = false
 		gimages[x]:rotate(-90)
 	end
 
 end
 
+local function answer(event)
+
+	local i = event.index
+
+	if(i == 1) then
+		--do nothing
+	elseif(i == 2)then
+		gv.gold = gv.gold - cost[current]
+		gv.owned[current] = 0
+		writeMoney(false)
+		loadMoney()
+		money.text = "$"..gv.gold
+		q.text = "Owned"
+		owned.text = gv.owned[current]
+	end
+
+end
+
+local function purchase(event)
+	if event.phase == "began" then
+		if gv.gold < cost[current] then 
+			native.showAlert("Purchase","You can not afford this skin yet",{"Okay"}, answer)
+		elseif(gv.owned[current] == 0) then
+			native.showAlert("Purchase","You already own this skin",{"Okay"}, answer)
+		else
+			native.showAlert("Purchase","Are you sure you want to buy this skin",{"No","Yes"}, answer)
+		end
+	end
+end
+
 
 --This is called automattically when Scene is called
 function scene:createScene( event )
   group = self.view
+  gv.currentskin = 3
+  
+  for i = 0, OP do
+  	cloneOwned = gv.owned[i]
+  end
   background(group)
   
   
@@ -130,7 +189,8 @@ function scene:createScene( event )
     left:rotate(90)
     left:scale(0.5,0.5)
    	group:insert(left)
- 
+
+	--makes card background
  	box = display.newImage("card.png")
 	box:rotate(-90)
 	box:scale(1,1.1)
@@ -139,6 +199,21 @@ function scene:createScene( event )
 	
 	
 	group:insert(box)
+	
+	--creates purchase button
+	local buy = widget.newButton{
+    
+      x = box.contentWidth + 50,
+      y = gv.height - 150,
+     defaultFile = "questionbox.png",
+     label = "Purchase!",
+ 		fontSize = 80,
+ 		labelColor = { default = { 0, 0, 0 }, over = {0} },
+      onEvent = purchase,
+    }
+    buy:rotate(-90)
+    buy:scale(0.4,0.5)
+   	group:insert(buy)
 	
 	loadimage()
 	
@@ -170,6 +245,19 @@ function scene:createScene( event )
  	
  	group:insert(cc)
  	
+ 	
+ 	--makes Battle Button
+    local battle = widget.newButton{
+    
+      x = 50,
+      y = 100,
+      defaultFile = "BATTLE.png",
+      onEvent = battle,
+    }
+    battle:rotate(-90)
+    battle:scale(0.5,0.5)
+   	group:insert(battle)
+ 	
  	loadMoney()
  	money = display.newText("$"..gv.gold,c.x,gv.height/2 - 300,"Greorgia",50)
  	money:rotate(-90)
@@ -179,6 +267,14 @@ function scene:createScene( event )
  	
  	
  	dispimage()
+ 	
+ 		--text = display.newText(current,200,500,"Georgia",50)
+  		--text:setTextColor(200,200,200)
+  		--text:rotate(-90)
+  		
+  		--owned = display.newText(gv.owned[current],300,500,"Georgia",50)
+  		--owned:setTextColor(200,200,200)
+  		--owned:rotate(-90)
  
 end
  

@@ -2,8 +2,9 @@ local storyboard = require( "storyboard" )
 local gv = require("global")
 gv.height = display.contentHeight
 gv.width = display.contentWidth
+gv.skinlist = {}
 
- OP =1 --number of existing skins -1 
+ OP =2 --number of existing skins -1 
 
 
 --calls the menu screen
@@ -46,6 +47,7 @@ function writeMoney(first)
 		 	file:write(gv.owned[i].."\n") --writes witch skins are bought
 		 end	
 	end
+	io.close(file)
 end
 
 function loadMoney()
@@ -59,6 +61,8 @@ function loadMoney()
   	for i = 0,OP do
   		gv.owned[i] = file:read("*n")
 	end
+	
+	gv.gold = 300
 
 end
 

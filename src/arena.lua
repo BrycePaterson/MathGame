@@ -369,7 +369,7 @@ function scene:createScene( event )
 	scroll.yscale = 0.05
 	group:insert(scroll)
 	
-	local good_guy = display.newImage("Good_Guy.png")
+	local good_guy = display.newImage(gv.currentskin)
 	good_guy.x = 320
 	good_guy.y = gv.height-150
 	good_guy:rotate(-90)
