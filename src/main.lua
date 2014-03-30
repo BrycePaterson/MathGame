@@ -4,7 +4,7 @@ gv.height = display.contentHeight
 gv.width = display.contentWidth
 gv.skinlist = {}
 
- OP =2 --number of existing skins -1 
+ OP =3 --number of existing skins -1 
 
 
 --calls the menu screen
@@ -38,9 +38,10 @@ function writeMoney(first)
 
 	if (first==true)then --first time playing
 		 file:write("15 \n") --user starts off with 15 gold 
-		 for i=0,OP do
+		 for i=0,OP-1 do
 		 	file:write("1\n") --all skins are not owned 1 is not owned, 0 is owned
 	 	end
+	 	file:write("0\n")
 	else
 		 file:write(gv.gold.."\n") --writes new gold amount
 		 for i=0,OP do

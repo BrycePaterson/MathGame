@@ -19,6 +19,7 @@ end
 
 local function localstore(event)
 
+	gv.store = true
 	storyboard.gotoScene("localstore")
 end
  
@@ -147,7 +148,7 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
     local group = self.view
-   
+   	gv.currentskin = 3
     background(group)
   
   	--loads play image

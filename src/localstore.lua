@@ -23,11 +23,18 @@ storyboard.removeAll()
 ---------------------------------------------------------------------------------
 
 local function home(event)
+	gv.store = false
+	storyboard.removeAll()
   storyboard.gotoScene("menu")
 end
 
 local function battle(event)
-	storyboard.gotoScene("arena")
+
+	if(gv.store == true) then
+		storyboard.gotoScene("level")
+	else
+		storyboard.gotoScene("arena")
+	end
 end
 
 local function dispimage()
@@ -95,6 +102,7 @@ local function loadimage()
 	gimages[0] = display.newImage("Good_Guy_b_complete.png")
 	gimages[1] = display.newImage("Good_Guy_g_complete.png")
 	gimages[2] = display.newImage("Good_Guy_s_complete.png")
+	gimages[3] = display.newImage("Good_Guy.png")
 	gv.skinlist[0] = "Good_Guy_b_complete.png"
 	gv.skinlist[1] = "Good_Guy_g_complete.png"
 	gv.skinlist[2] = "Good_Guy_s_complete.png"
@@ -103,6 +111,7 @@ local function loadimage()
 	cost[0] = 100
 	cost[1] = 150
 	cost[2] = 200
+	cost[3] = 0
 	
 	for x = 0,OP do
 		gimages[x].isVisible = false
@@ -124,7 +133,7 @@ local function answer(event)
 		loadMoney()
 		money.text = "$"..gv.gold
 		q.text = "Owned"
-		owned.text = gv.owned[current]
+		--owned.text = gv.owned[current]
 	end
 
 end

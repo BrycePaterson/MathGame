@@ -16,6 +16,7 @@ local group
 ---------------------------------------------------------------------------------
 
 local function home(event)
+	gv.store = false
   storyboard.gotoScene("menu")
 end
 
@@ -65,7 +66,11 @@ local function handleButton(event)
 		gv.level = 9
 	end
     
-	storyboard.gotoScene("localstore")
+    if(gv.store == true)then
+		storyboard.gotoScene("arena")
+	else
+		storyboard.gotoScene("localstore")
+	end
 end
 
 --changes mathematical operation text
