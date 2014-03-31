@@ -137,6 +137,7 @@ local function firstTime()
 	  writeDate()
 	local alert = native.showAlert( "Hey There","Can we learn more about our game from your experience", { "Yes", "No" }, writeFirst )
 	else
+	 
 		loadMoney()
 		readFile()
 		loadProgress()

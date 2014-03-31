@@ -42,7 +42,7 @@ local corr = 0
 local incorr = 0 
 local divanswer =0
 
-local calcpic = "stone.png"
+local calcpic = "Stone.png"
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 --------------------------------------------------------------------------------- 
