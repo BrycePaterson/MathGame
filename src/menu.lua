@@ -36,6 +36,10 @@ end
    --text:setTextColor(200,200,200)
 end
 
+local function customQuestion(event)
+	storyboard.gotoScene("create")
+end
+
 local function exit(event)
 	local stop = os.date('*t')
 	local stop_time = os.time(stop)
@@ -214,6 +218,18 @@ function scene:createScene( event )
     
     store:rotate(-90)
     group:insert(store)
+	
+	local cu = display.newImage("Custom.png")
+	cu.isVisible = false
+	local custom = widget.newButton{
+        x = gv.width/2 + 100,
+   	    y = gv.height/2,
+        defaultFile = "Custom.png",
+        onEvent = customQuestion,
+    }
+    
+    custom:rotate(-90)
+    group:insert(custom)
     
     firstTime()
     

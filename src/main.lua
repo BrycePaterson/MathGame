@@ -4,7 +4,7 @@ gv.height = display.contentHeight
 gv.width = display.contentWidth
 gv.skinlist = {}
 
- OP =3 --number of existing skins -1 
+OP =3 --number of existing skins -1 
 
 
 --calls the menu screen
