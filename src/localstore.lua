@@ -10,8 +10,7 @@ local group
 local box
 local q
 local money
-local text --for testing
-local owned --for testing
+local buy
 local cloneOwned = {}
 -- Clear previous scene
 storyboard.removeAll()
@@ -23,18 +22,8 @@ storyboard.removeAll()
 ---------------------------------------------------------------------------------
 
 local function home(event)
-	gv.store = false
 	storyboard.removeAll()
   storyboard.gotoScene("menu")
-end
-
-local function battle(event)
-
-	if(gv.store == true) then
-		storyboard.gotoScene("level")
-	else
-		storyboard.gotoScene("arena")
-	end
 end
 
 local function dispimage()
@@ -46,10 +35,14 @@ local function dispimage()
 	
 	if gv.owned[current] == 0 then 
 		q.text = "Owned"
-		gv.currentskin = gv.skinlist[current]
+		if current == gv.equip then
+			buy:setLabel("Equiped")
+		else
+			buy:setLabel("Equip?")
+		end
 	else
 		q.text = "Cost $"..cost[current]
-		gv.currentskin = gv.skinlist[3]
+		buy:setLabel("Purchase!")
 	end
 
 end
@@ -74,9 +67,6 @@ local function next(event)
 		end
 		
 		dispimage()
-		
-		 --text.text = current
-		 --owned.text = gv.owned[current]
 	end
 end
 
@@ -103,10 +93,6 @@ local function loadimage()
 	gimages[1] = display.newImage("Good_Guy_g_complete.png")
 	gimages[2] = display.newImage("Good_Guy_s_complete.png")
 	gimages[3] = display.newImage("Good_Guy.png")
-	gv.skinlist[0] = "Good_Guy_b_complete.png"
-	gv.skinlist[1] = "Good_Guy_g_complete.png"
-	gv.skinlist[2] = "Good_Guy_s_complete.png"
-	gv.skinlist[3] = "Good_Guy.png"
 	
 	cost[0] = 100
 	cost[1] = 150
@@ -133,6 +119,7 @@ local function answer(event)
 		loadMoney()
 		money.text = "$"..gv.gold
 		q.text = "Owned"
+		buy:setLabel("Equip?")
 		--owned.text = gv.owned[current]
 	end
 
@@ -140,12 +127,21 @@ end
 
 local function purchase(event)
 	if event.phase == "began" then
-		if gv.gold < cost[current] then 
-			native.showAlert("Purchase","You can not afford this skin yet",{"Okay"}, answer)
-		elseif(gv.owned[current] == 0) then
-			native.showAlert("Purchase","You already own this skin",{"Okay"}, answer)
+		
+		if buy:getLabel()=="Equiped" then
+		
 		else
-			native.showAlert("Purchase","Are you sure you want to buy this skin",{"No","Yes"}, answer)
+			if(buy:getLabel()=="Equip?")then
+				gv.currentskin = gv.skinlist[current]				
+				buy:setLabel("Equiped")
+				gv.equip = current
+			elseif gv.gold < cost[current] then 
+				native.showAlert("Purchase","You can not afford this skin yet",{"Okay"}, answer)
+			elseif(gv.owned[current] == 0) then
+				native.showAlert("Purchase","You already own this skin",{"Okay"}, answer)
+			else
+				native.showAlert("Purchase","Are you sure you want to buy this skin",{"No","Yes"}, answer)
+			end
 		end
 	end
 end
@@ -154,7 +150,6 @@ end
 --This is called automattically when Scene is called
 function scene:createScene( event )
   group = self.view
-  gv.currentskin = 3
   
   for i = 0, OP do
   	cloneOwned = gv.owned[i]
@@ -205,12 +200,11 @@ function scene:createScene( event )
 	box:scale(1,1.1)
 	box.y = gv.height/2
 	box.x = gv.width/2 - 60
-	
-	
+
 	group:insert(box)
 	
 	--creates purchase button
-	local buy = widget.newButton{
+	buy = widget.newButton{
     
       x = box.contentWidth + 50,
       y = gv.height - 150,
@@ -253,19 +247,6 @@ function scene:createScene( event )
 	cc.yScale = 0.5
  	
  	group:insert(cc)
- 	
- 	
- 	--makes Battle Button
-    local battle = widget.newButton{
-    
-      x = 50,
-      y = 100,
-      defaultFile = "BATTLE.png",
-      onEvent = battle,
-    }
-    battle:rotate(-90)
-    battle:scale(0.5,0.5)
-   	group:insert(battle)
  	
  	loadMoney()
  	money = display.newText("$"..gv.gold,c.x,gv.height/2 - 300,"Greorgia",50)

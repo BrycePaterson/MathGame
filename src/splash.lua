@@ -18,6 +18,12 @@ storyboard.removeAll()
 function scene:createScene( event )
   local group = self.view
   gv.time = 0
+  gv.equip = 3
+  gv.skinlist[0] = "Good_Guy_b_complete.png"
+  gv.skinlist[1] = "Good_Guy_g_complete.png"
+  gv.skinlist[2] = "Good_Guy_s_complete.png"
+  gv.skinlist[3] = "Good_Guy.png"
+  gv.currentskin = gv.skinlist[3]
   
   local total_time = io.open(time_path, "r")
   if(total_time==nil)then

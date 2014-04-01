@@ -153,7 +153,7 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
     local group = self.view
-   	gv.currentskin = 3
+   
     background(group)
   
   	--loads play image

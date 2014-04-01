@@ -10,7 +10,7 @@
 	--gv.owned holds a record of which skins the user has bought
 	--gv.currentskin
 	--gv.skinlist
-	--gv.store
+	--gv.equip holds the skin number for gv.skinlist that the user has currently selected
 g = {}
 
 return g
