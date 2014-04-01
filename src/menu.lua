@@ -219,6 +219,7 @@ function scene:createScene( event )
     store:rotate(-90)
     group:insert(store)
 	
+	--load custom questions button
 	local cu = display.newImage("Custom.png")
 	cu.isVisible = false
 	local custom = widget.newButton{
@@ -227,6 +228,8 @@ function scene:createScene( event )
         defaultFile = "Custom.png",
         onEvent = customQuestion,
     }
+	custom.xScale = 0.7
+	custom.yScale = 0.7
     
     custom:rotate(-90)
     group:insert(custom)

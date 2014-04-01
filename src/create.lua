@@ -21,7 +21,7 @@ local question = ""
 ---------------------------------------------------------------------------------
 
 local function home(event)
-	gv.store = false
+  storyboard.removeScene("create")
   storyboard.gotoScene("menu")
 end
 
@@ -90,12 +90,14 @@ end
 
 --add to question
 local function add(event)
-	if operator =="" then
-		number1(event)
-		q.text=question
-	else
-		number2(event)
-		q.text=question
+	if event.phase == "began" then
+		if operator =="" then
+			number1(event)
+			q.text=question
+		else
+			number2(event)
+			q.text=question
+		end
 	end
 end
 
@@ -153,7 +155,7 @@ local function clear(event)
 			q.text = question
 		else 
 			num2 = ""
-			question = num1+operator
+			question = num1..operator
 			q.text = question
 		end
 	end
@@ -175,18 +177,20 @@ end
 
 --handle operator buttons
 local function op(event)
-	local s = event.target
-	s = s:getLabel()
-	if s=="x" then 
-		s="*"
-	elseif s=="%" then
-		s="/"
+	if event.phase == "began" then
+		local s = event.target
+		s = s:getLabel()
+		if s=="x" then 
+			s="*"
+		elseif s=="%" then
+			s="/"
+		end
+		operator = s
+		question = question..operator
+		q.text = question
+		clearOp()
+		addCalc()
 	end
-	operator = s
-	question = question..operator
-	q.text = question
-	clearOp()
-	addCalc()
 end
 
 --make confirm/deny buttons
@@ -201,7 +205,6 @@ local function makeConfirm()
                 fontSize = 20,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = makeQ
 			}
@@ -215,7 +218,6 @@ local function makeConfirm()
                 fontSize = 20,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = clearQ
 			}
@@ -232,10 +234,9 @@ local function makeOp()
 				label = "+",
                 x = dx + 125,
                 y = 325,
-                fontSize = 20,
+                fontSize = 40,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = op
 			}
@@ -246,10 +247,9 @@ local function makeOp()
 				label = "-",
                 x = dx + 125,
                 y = dy + 325,
-                fontSize = 20,
+                fontSize = 40,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = op
 			}
@@ -260,10 +260,9 @@ local function makeOp()
 				label = "x",
                 x = dx + 125,
                 y = dy*2 + 325,
-                fontSize = 20,
+                fontSize = 40,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = op
 			}
@@ -274,10 +273,9 @@ local function makeOp()
 				label = "%",
                 x = dx + 125,
                 y = dy*3 + 325,
-                fontSize = 20,
+                fontSize = 40,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = op
 			}
@@ -298,10 +296,9 @@ local function makeCalc()
             	label = (j+1)*3-i,
                 x = dx*j + 125,
                 y = dy*i + 325,
-                fontSize = 20,
+                fontSize = 40,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = input
           }
@@ -316,10 +313,9 @@ local function makeCalc()
             	label = "CE",
                 x = 425,
                 y = 525,
-                fontSize = 20,
+                fontSize = 30,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = clear
           }
@@ -330,10 +326,9 @@ local function makeCalc()
             	label = "0",
                 x = 425,
                 y = 425,
-                fontSize = 20,
+                fontSize = 40,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = input
           }
@@ -347,7 +342,6 @@ local function makeCalc()
                 fontSize = 30,
                 width = 80,
                 height = 80,
-                defaultFile = "Stone.png",
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
 				onEvent = enter
           }
