@@ -11,6 +11,7 @@
 	--gv.currentskin
 	--gv.skinlist
 	--gv.equip holds the skin number for gv.skinlist that the user has currently selected
+	--gv.levelPlayed is the level the user is currently playing
 g = {}
 
 return g

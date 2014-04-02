@@ -375,7 +375,19 @@ function scene:createScene( event )
 	good_guy:rotate(-90)
 	group:insert(good_guy)
 	
-	local bad_guy = display.newImage("Bad_Guy.png")
+	local bad_guy
+	
+	if(gv.levelPlayed == 9) then
+		bad_guy = display.newImage("Bad_complete.png")
+	else
+		 local numb = math.random(0,3)
+		 local bad = {}
+		 bad[0] = "Bad_Guy1_complete.png"
+		 bad[1] = "Bad_Guy2_complete.png"
+		 bad[2] = "Bad_guy3_complete.png"
+		 bad_guy = display.newImage(bad[numb])
+	 end
+		 
 	bad_guy.x = 320
 	bad_guy.y = 145
 	bad_guy:rotate(-90)
