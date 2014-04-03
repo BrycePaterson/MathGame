@@ -133,9 +133,9 @@ end
  local function showColor(rw)
  
  	if (rw == 0)then
- 		q:setTextColor(250,0,0)
+ 		q:setTextColor(0,0,0)
 	else
- 		q:setTextColor(0,250,0)
+ 		q:setTextColor(0,0,0)
  	end
  end
  
@@ -378,13 +378,13 @@ function scene:createScene( event )
 	local bad_guy
 	
 	if(gv.levelPlayed == 9) then
-		bad_guy = display.newImage("Bad_complete.png")
+		bad_guy = display.newImage("Boss_complete.png")
 	else
-		 local numb = math.random(0,3)
+		 local numb = math.random(0,2)
 		 local bad = {}
 		 bad[0] = "Bad_Guy1_complete.png"
 		 bad[1] = "Bad_Guy2_complete.png"
-		 bad[2] = "Bad_guy3_complete.png"
+		 bad[2] = "Bad_Guy3_complete.png"
 		 bad_guy = display.newImage(bad[numb])
 	 end
 		 
@@ -393,66 +393,69 @@ function scene:createScene( event )
 	bad_guy:rotate(-90)
 	group:insert(bad_guy)
 	
+	local shift = 50
 	local good_background = display.newImage("Player_background.png")
-	good_background.x = 65
+	good_background.x = 65 + shift
 	good_background.y = display.contentHeight-110
 	good_background.xScale = 0.82
-	good_background.yScale = 0.7
+	good_background.yScale = 0.5
 	good_background:rotate(-90)
 	group:insert(good_background)
 	
-	local you = display.newText("YOU",50,gv.height-70,"Georgia",50)
-	you:setTextColor(240,0,0)
+	local you = display.newText("YOU",50 + shift,gv.height-70,"Georgia",35)
+	you:setTextColor(0,0,0)
 	you:rotate(-90)
+	you:scale(1,1)
 	group:insert(you)
 	
 	local bad_background = display.newImage("Player_background.png")
-	bad_background.x = 65
+	bad_background.x = 65 + shift
 	bad_background.y = 110
 	bad_background.xScale = 0.82
-	bad_background.yScale = 0.7
+	bad_background.yScale = 0.5
 	bad_background:rotate(-90)
 	group:insert(bad_background)
 	
-	local baddicus = display.newText("Badicus",50,150,"Georgia",35)
-	baddicus:setTextColor(240,0,0)
+	local baddicus = display.newText("Badicus",50 + shift,150,"Georgia",35)
+	baddicus:setTextColor(0,0,0)
 	baddicus:rotate(-90)
+	baddicus:scale(1,1)
 	group:insert(baddicus)
 	
 	bad_healthbar = display.newImage("health_bar_background.png")
-	bad_healthbar.x = 85
+	bad_healthbar.x = 85 + shift
 	bad_healthbar.y = 110
 	bad_healthbar.xScale = 0.7
 	bad_healthbar:rotate(-90)
 	group:insert(bad_healthbar)
 	
 	bad_healthbar_health = display.newImage("health_bar_health.png")
-	bad_healthbar_health.x = 85
+	bad_healthbar_health.x = 85 + shift
 	bad_healthbar_health.y = 110
 	bad_healthbar_health.xScale = 0.7
 	bad_healthbar_health:rotate(-90)
 	group:insert(bad_healthbar_health)
 	
 	good_healthbar = display.newImage("health_bar_background.png")
-	good_healthbar.x = 85
+	good_healthbar.x = 85 + shift
 	good_healthbar.y = gv.height-110
 	good_healthbar.xScale = 0.7
 	good_healthbar:rotate(-90)
 	group:insert(good_healthbar)
 	
 	good_healthbar_health = display.newImage("health_bar_health.png")
-	good_healthbar_health.x = 85
+	good_healthbar_health.x = 85 + shift
 	good_healthbar_health.y = gv.height-110
 	good_healthbar_health.xScale = 0.7
 	good_healthbar_health:rotate(-90)
 	group:insert(good_healthbar_health)
 	
-	player = display.newText(displayHealth(player_health),50,gv.height-180,"Georgia",25)
+	player = display.newText(displayHealth(player_health),50+ shift,gv.height-180,"Georgia",25)
 	player:setTextColor(240,0,0)
 	player:rotate(-90)
 	group:insert(player)
 	
-	enemy=display.newText(displayHealth(computer_health),50,40,"Georgia",25)
+	enemy=display.newText(displayHealth(computer_health),50 + shift,40,"Georgia",25)
 	enemy:setTextColor(240,0,0)
 	enemy:rotate(-90)
 	group:insert(enemy)
