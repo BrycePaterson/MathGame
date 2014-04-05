@@ -5,6 +5,7 @@
 --		hit animation (players pictures flashing) BRYCE(Need timer to make it work as well)
 --		sounds  (mp3 files for background music, hit, and miss), DONE
 local storyboard = require( "storyboard" )
+local parse =  require("mod_parse")
 local scene = storyboard.newScene()
 local widget = require("widget")
 local gv = require("global")
@@ -41,24 +42,35 @@ local total_time = 0
 local corr = 0
 local incorr = 0 
 local divanswer =0
-
 local calcpic = "Stone.png"
+parse:init( { appId = "ZDEf1xsFcjIX165zKuGYCy3a2FZVRLlyuvZsvUmK", apiKey = "kQaF9iWQACs4UyQZElIIs1vdyN0HRsSpIj9F5R1U" } )
 ---------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 --------------------------------------------------------------------------------- 
+
+local function onCreateObject( event )
+  if not event.error then
+    print( event.response.createdAt )
+  end
+end
+
 --function for writing our analytics to a file
-function write()
-	local path = system.pathForFile("addition.txt",system.DocumentsDirectory)
-	local file = io.open(path, "a")
-	
-	
+function write()	
 	t2 = os.date('*t')
 	t3 = os.time(t2)
 	total_time = t3 - time
 	local total = corr + incorr
-	file:write("\n\nLevel= "..L.."\nTime Spent= "..total_time.."\nQuestions Asked= "..total.."\nCorrect= "..corr.."\nWrong= "..incorr)
-	io.close(file)
-	file = nil
+	local dataTablelocal dataTable = { ["level"] = L, ["time"] = total_time, ["asked"] = total, ["correct"] = corr }
+	
+	if gv.section ==0 then
+		parse:createObject( "Addition", dataTable, onCreateObject)
+	elseif gv.section == 1 then
+		parse:createObject( "Subtraction", dataTable, onCreateObject)
+	elseif gv.section == 2 then 
+		parse:createObject( "Multiplication", dataTable, onCreateObject)
+	else
+		parse:createObject( "Division", dataTable, onCreateObject)
+	end
 end
 --function to change the numbers in the question
 function changeValues()
