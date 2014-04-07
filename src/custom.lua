@@ -143,9 +143,9 @@ end
  local function showColor(rw)
  
  	if (rw == 0)then
- 		q:setTextColor(0,0,0)
+ 		q:setTextColor(150/255,0,0)
 	else
- 		q:setTextColor(0,0,0)
+ 		q:setTextColor(0,150/255,0)
  	end
  end
  

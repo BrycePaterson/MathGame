@@ -222,6 +222,7 @@ function scene:createScene( event )
 	local description = display.newText("Pick a Difficulty Level",225,100, "Georgia", 25)
 	description.x = 100
 	description.y = gv.height/2
+	description:setTextColor(0,0,0)
 	description:rotate(-90)
 	group:insert(description)
    

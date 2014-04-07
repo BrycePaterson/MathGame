@@ -48,12 +48,12 @@ function scene:createScene( event )
    --the player wins
    if(gv.winner==1) then
 		winner = display.newText("YOU WIN",400,gv.height/2,"Georgia",50)
-		winner:setTextColor(0,250,0)
+		winner:setTextColor(0,0,0)
 		winner:rotate(-90)
 		group:insert(winner)
 		
 		local winnings = display.newText("You won "..(2*gv.level).." gold",300,gv.height/2,"Georgia",50)
-		winnings:setTextColor(0,250,0)
+		winnings:setTextColor(0,0,0)
 		winnings:rotate(-90)
 		group:insert(winnings)
 		
