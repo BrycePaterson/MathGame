@@ -5,8 +5,14 @@ local gv = require("global")
 local level = {}  --array used to hold level grid
 local extra = {}
 local Op = {} --array used to hold operators
+local dis = {}
+local Customquestions = {}
+local del
+local location = 140
 local confirm
 local deny
+local ask
+local ask2
 -- Clear previous scene
 storyboard.removeAll()
 local group
@@ -43,12 +49,16 @@ end
 local function addConfirm()
 	confirm.isVisible = true
 	deny.isVisible = true
+	ask.isVisible = true
+	ask2.isVisible = true
 end
 
 --clear confirm/clear buttons
 local function clearConfirm()
 	confirm.isVisible = false
 	deny.isVisible = false
+	ask.isVisible = false
+	ask2.isVisible = false
 end
 
 --clear Calculator
@@ -112,9 +122,74 @@ local function clearQ()
 	addCalc()
 end
 
+
+--delete's this question from list
+local function deleteQuestion(event)
+	if event.phase == "began" then
+		local path = system.pathForFile("custom.txt",system.DocumentsDirectory)
+		os.remove(path)
+		CustomQuestions = {}
+		for i=0, table.getn(dis) do
+			dis[i].isVisible = false
+		end
+		dis = {}
+		location = 140
+		del.isVisible = false
+	end
+end
+
+--prints existing custom questions
+local function printQuestions()
+	local info = display.newText("Existing custom questions:",90, gv.height-180,"Geargia",30)
+	info:rotate(-90)
+	group:insert(info)
+		for i = 0, table.getn(Customquestions) do
+			dis[i] = display.newText(Customquestions[i],location,gv.height-100,"Georgia",40)
+			dis[i]:rotate(-90)
+			group:insert(dis[i])
+			location = location +20
+		end
+end
+
+--reads questions from file
+local function readQuestions()
+	local path = system.pathForFile("custom.txt",system.DocumentsDirectory)
+	local file = io.open(path, "r")
+	if (file) then
+		Customquestions = {}
+		for i = 0, 10 do
+			Customquestions[i] = file:read("*l")
+		end
+		io.close(file)
+		printQuestions()
+	else
+		del.isVisible = false
+	end
+end
+
+--display new question
+local function newQuestion()
+	local i = table.getn(Customquestions)
+	dis[i] = display.newText(Customquestions[i],location,gv.height-100,"Georgia",40)
+			dis[i]:rotate(-90)
+			group:insert(dis[i])
+	location = location +20
+	del.isVisible = true
+						local test = display.newText(table.getn(dis),120, gv.height-180,"Geargia",30)
+					local test2 = display.newText(table.getn(Customquestions),130, gv.height-180,"Geargia",30)
+
+end
+
 --add the question to the file
 local function makeQ()
+	local path = system.pathForFile("custom.txt",system.DocumentsDirectory)
+  	local file = io.open(path, "a")
+	file:write(question.."\n")
+	Customquestions[table.getn(Customquestions)]=question
 	clearQ()
+	io.close(file)
+	printQuestions()
+	del.isVisible = true
 end
 
 --calculator event handler
@@ -197,12 +272,18 @@ end
 local function makeConfirm()
 	local dx = 100
     local dy = 100
-
+	ask = display.newText("Are you sure you want" ,125,225,"Georgia",30)
+	ask:rotate(-90)
+	group:insert(ask)
+	ask2 = display.newText("to save this question?" ,175,225,"Georgia",30)
+	ask2:rotate(-90)
+	group:insert(ask2)
+	
 	confirm = widget.newButton{
 				label = "CONFIRM",
-                x = dx + 125,
-                y = dy + 325,
-                fontSize = 20,
+                x = dx + 225,
+                y = 325,
+                fontSize = 30,
                 width = 80,
                 height = 80,
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
@@ -212,10 +293,10 @@ local function makeConfirm()
 	group:insert(confirm)
 	
 	deny = widget.newButton{
-				label = "clear",
-                x = dx + 125,
-                y = 325,
-                fontSize = 20,
+				label = "CLEAR",
+                x = dx + 225,
+                y = 125,
+                fontSize = 30,
                 width = 80,
                 height = 80,
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
@@ -232,9 +313,9 @@ local function makeOp()
 
 	Op[0] = widget.newButton{
 				label = "+",
-                x = dx + 125,
-                y = 325,
-                fontSize = 40,
+                x = 125,
+                y = 300,
+                fontSize = 60,
                 width = 80,
                 height = 80,
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
@@ -245,9 +326,9 @@ local function makeOp()
 	
 	Op[1] = widget.newButton{
 				label = "-",
-                x = dx + 125,
-                y = dy + 325,
-                fontSize = 40,
+                x = 125,
+                y = 150,
+                fontSize = 60,
                 width = 80,
                 height = 80,
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
@@ -258,9 +339,9 @@ local function makeOp()
 	
 	Op[2] = widget.newButton{
 				label = "x",
-                x = dx + 125,
-                y = dy*2 + 325,
-                fontSize = 40,
+                x = dx*2 + 125,
+                y = 300,
+                fontSize = 60,
                 width = 80,
                 height = 80,
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
@@ -271,9 +352,9 @@ local function makeOp()
 	
 	Op[3] = widget.newButton{
 				label = "%",
-                x = dx + 125,
-                y = dy*3 + 325,
-                fontSize = 40,
+                x = dx*2 + 125,
+                y = 150,
+                fontSize = 60,
                 width = 80,
                 height = 80,
                 labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
@@ -295,7 +376,7 @@ local function makeCalc()
             level[i][j] = widget.newButton{
             	label = (j+1)*3-i,
                 x = dx*j + 125,
-                y = dy*i + 325,
+                y = dy*i + 125,
                 fontSize = 40,
                 width = 80,
                 height = 80,
@@ -312,7 +393,7 @@ local function makeCalc()
 	extra[0] = widget.newButton{
             	label = "CE",
                 x = 425,
-                y = 525,
+                y = 325,
                 fontSize = 30,
                 width = 80,
                 height = 80,
@@ -325,7 +406,7 @@ local function makeCalc()
 	extra[1] = widget.newButton{
             	label = "0",
                 x = 425,
-                y = 425,
+                y = 225,
                 fontSize = 40,
                 width = 80,
                 height = 80,
@@ -338,7 +419,7 @@ local function makeCalc()
 	extra[2] = widget.newButton{
             	label = "ENTER",
                 x = 425,
-                y = 325,
+                y = 125,
                 fontSize = 30,
                 width = 80,
                 height = 80,
@@ -357,22 +438,30 @@ function scene:createScene( event )
 	local box = display.newImage("questionbox.png")
 	box:rotate(-90)
 	box:scale(1,1)
-	box.y = gv.height/2
+	box.y = 225
 	box.xScale = 0.7
 	
-	q = display.newText(question,35,gv.height/2,"Georgia",50)
+	q = display.newText(question,35,225,"Georgia",50)
 	q:rotate(-90)
 	q:setTextColor(0,0,0)
 	
 	group:insert(box)
 	group:insert(q)
     local group = self.view
-    --used to created level grid
-	makeOp()
-	clearOp()
-	makeConfirm()
-	clearConfirm()
-    makeCalc()
+	
+	--makes delete button
+	del = widget.newButton{
+		label = "Delete Questions?",
+		x = gv.width -100,
+		y = gv.height-250,
+		fontSize = 30,
+		width = 80,
+		height = 80,
+		labelColor = { default = { 163, 25, 12 }, over = {0} },       
+		onEvent = deleteQuestion
+	}
+	del:rotate(-90)
+	group:insert(del)
 
     --makes home button
     local home = widget.newButton{
@@ -384,6 +473,14 @@ function scene:createScene( event )
     home:rotate(-90)
     home:scale(0.5,0.5)
     group:insert(home)
+	
+    --used to created level grid
+	makeOp()
+	clearOp()
+	makeConfirm()
+	clearConfirm()
+    makeCalc()
+	readQuestions()
 
 end
  

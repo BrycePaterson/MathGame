@@ -166,6 +166,35 @@ local function down(event)
    end
  end
 
+ --this handles custom button
+ local function playCustom()
+	  storyboard.gotoScene("custom")
+ end
+ 
+--this is called to make custom questions button
+local function custom()
+	local path = system.pathForFile("custom.txt",system.DocumentsDirectory)
+	local file = io.open(path, "r")
+	if (file) then
+		local customback = display.newImage("square.png")
+		customback.y = gv.height-150
+		customback.x = gv.width/2
+		customback.xScale = 0.3
+		group:insert(customback)
+		local custombtn = widget.newButton{
+              label = "Play Custom Game",
+              x = gv.width/2,
+              y = gv.height-150,
+              fontSize = 25,
+              width = 80,
+              height = 80,
+              labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
+              onEvent = playCustom
+         }
+		 custombtn:rotate(-90)
+		 group:insert(custombtn)
+	end
+end
 --This is called automattically when Scene is called
 function scene:createScene( event )
 	group = self.view
@@ -181,6 +210,8 @@ function scene:createScene( event )
     --used to created level grid
     LevelCreator()
     
+	custom()
+	
     --used to display what kind of level you are going to play
     type = display.newText(asmd[gv.section],200,100,"Georgia",50)
     type:setTextColor(200,200,200)
